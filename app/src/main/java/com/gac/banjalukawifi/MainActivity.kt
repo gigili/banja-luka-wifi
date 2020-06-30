@@ -1,13 +1,14 @@
 package com.gac.banjalukawifi
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import android.view.View
+import android.os.Handler
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -15,6 +16,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var navView: BottomNavigationView
+    private lateinit var navController: NavController
+    private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +49,16 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navView = findViewById(R.id.nav_view)
+        navController = findNavController(R.id.nav_host_fragment)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
-                R.id.navigation_add/*,
+                R.id.navigation_add,
                 R.id.navigation_map,
                 R.id.navigation_bug,
-                R.id.navigation_about*/
+                R.id.navigation_about
             )
         )
 
@@ -61,26 +66,48 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         navView.setOnNavigationItemSelectedListener { item ->
-            Log.d("GTAG", "${item.title} | ${item.itemId}")
-
             var status = false
-            if(item.itemId == R.id.navigation_home){
-                navController.navigate(R.id.action_navigation_add_edit_to_navigation_home)
-                status = true
-            }
 
-            if(item.itemId == R.id.navigation_add){
-                navController.navigate(R.id.action_navigation_home_to_navigation_add_edit)
-                status = true
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navController.navigate(R.id.action_global_navigation_home)
+                    status = true
+                }
+
+                R.id.navigation_add -> {
+                    navController.navigate(R.id.action_global_navigation_add_edit)
+                    status = true
+                }
+
+                R.id.navigation_map -> {
+                    navController.navigate(R.id.action_global_navigation_map)
+                    status = true
+                }
             }
 
             status
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d("GTAG", "item: ${item.title}")
-        return super.onOptionsItemSelected(item)
+    @SuppressLint("RestrictedApi")
+    override fun onBackPressed() {
+        if (navView.selectedItemId != R.id.navigation_home) {
+            navController.navigate(R.id.action_global_navigation_home)
+            navView.selectedItemId = R.id.navigation_home
+            navController.backStack.clear()
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                finish()
+                return
+            }
+
+            Toast.makeText(this, getString(R.string.double_back_to_exit), Toast.LENGTH_SHORT).show()
+
+            this.doubleBackToExitPressedOnce = true
+
+            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -90,13 +117,13 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             153 -> {
                 if (grantResults.isEmpty()) {
-                    //globalConfig.notifyMSG(getString(R.string.app_needs_permissions_to_run), null)
+                    Toast.makeText(this, getString(R.string.app_needs_permissions_to_run), Toast.LENGTH_LONG).show()
                     return
                 }
 
                 for (grant in grantResults) {
                     if (grant != PackageManager.PERMISSION_GRANTED) {
-                        //globalConfig.notifyMSG(getString(R.string.app_needs_permissions_to_run), null)
+                        Toast.makeText(this, getString(R.string.app_needs_permissions_to_run), Toast.LENGTH_LONG).show()
                         return
                     }
                 }

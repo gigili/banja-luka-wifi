@@ -44,4 +44,5 @@
     <string name="terms_of_use">Uslovi korištenja</string>
     <string name="accept_terms">Prihvatam uslove</string>
     <string name="app_needs_permissions_to_run">Aplikaciji su potrebna sva prava kako bi radila ispravno</string>
+    <string name="double_back_to_exit">Pritisnite Nazad x2 da bi ste izašli</string>
 </resources>
