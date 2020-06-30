@@ -15,7 +15,7 @@
     <string name="prompt_network_password">Password *</string>
     <string name="save">Save</string>
     <string name="important_fields">Fields marked with * are important</string>
-    <string name="new_network_notice">Personal home or office networks should not be added</string>
+    <string name="new_network_notice">Personal home or office networks should not be added.</string>
     <string name="password_copied_success">Password copied successfully</string>
     <string name="field_required">This field is required</string>
     <string name="waiting_for_location">Waiting for location</string>

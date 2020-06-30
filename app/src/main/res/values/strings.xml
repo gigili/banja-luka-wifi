@@ -12,7 +12,7 @@
     <string name="prompt_network_password">Šira *</string>
     <string name="save">Sačuvaj</string>
     <string name="important_fields">Polja označena sa * su obavezna</string>
-    <string name="new_network_notice">Nije poželjno da se unose šifre od privatnih mreža kao što su kuće ili kancelarije</string>
+    <string name="new_network_notice">Nije poželjno da se unose šifre od privatnih mreža kao što su kuće ili kancelarije.</string>
     <string name="password_copied_success">Šifra uspješno kopirana</string>
     <string name="field_required">Ovo polje je obavezno</string>
     <string name="waiting_for_location">Pričekajte dok pronađemo vašu lokaciju</string>
