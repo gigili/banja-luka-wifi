@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 *secrets.xml
+app/google-services.json

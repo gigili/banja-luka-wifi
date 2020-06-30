@@ -13,7 +13,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -87,6 +91,24 @@ class MainActivity : AppCompatActivity() {
 
             status
         }
+
+        initializeAds()
+    }
+
+    private fun initializeAds() {
+        var testDeviceID: String? = null
+        if (BuildConfig.testAdDeviceID.isNotEmpty())
+            testDeviceID = BuildConfig.testAdDeviceID
+
+        val rcb = RequestConfiguration.Builder().setTestDeviceIds(listOf(testDeviceID)).build()
+        MobileAds.setRequestConfiguration(rcb)
+
+        MobileAds.initialize(this) {}
+        val adRequest = AdRequest
+            .Builder()
+            .build()
+        adView.loadAd(adRequest)
+
     }
 
     @SuppressLint("RestrictedApi")
