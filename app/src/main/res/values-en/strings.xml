@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Banja Luka WiFi</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_map">WiFi Map</string>
+    <string name="title_add_edit_network">Add / Edit network</string>
+    <string name="please_wait">Please wait</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_networks">Search networks</string>
+    <string name="prompt_network_name">Network name *</string>
+    <string name="prompt_network_address">Address</string>
+    <string name="prompt_network_password">Password *</string>
+    <string name="save">Save</string>
+    <string name="important_fields">Fields marked with * are important</string>
+    <string name="new_network_notice">Personal home or office networks should not be added</string>
+    <string name="password_copied_success">Password copied successfully</string>
+    <string name="field_required">This field is required</string>
+    <string name="waiting_for_location">Waiting for location</string>
+    <string name="permission_need_to_work">That permission was required for the app to work</string>
+    <string name="network_saved_success">Network saved successfully</string>
+    <string name="network_saved_error">There was an error while saving the network</string>
+    <string name="internet_required">Internet connection is required</string>
+    <string name="wifi_internet_required">WiFi internet connection is required</string>
+    <string name="report_bug">Report a bug</string>
+    <string name="terms_and_conditions"><![CDATA[<p>1. Banja Luka WiFi is an android application which contains all the wifi networks in the city of Banja Luka</p> <p>2. The application is intended for the mentioned city above.</p> <p>3. The author of the application takes no responsibility for the networks added by the users.\n\n <p>4. All the networks added by the users are their responsibility and they confirm that the added network  does not belong to a private house and/or office.</p> <p>5. If someone wants to get their network removed, they can contact the administrator via email: <a href=\'mailto:igor@igorilic.net\'>igor@igorilic.net</a>.</p> <p>6. After it was confirmed that the network belongs to the user, it  will be deleted.</p> <p>7. The removal of a network can only happen after the update of an application has been published.</p> <p>8. Data that the application collects from the user are their geo location and their unique device ID.</p> <p>9. The application is free to use but has a banner on the main screen.</p> <p>10. The author of the application can change this terms without any prior or later notification to the user.</p>]]></string>
+    <string name="about_app">About app</string>
+    <string name="email">E-mail</string>
+    <string name="lblWebsite">Website</string>
+    <string name="lblVersion">Version</string>
+    <string name="lblAuthor">Author</string>
+    <string name="author_name">Igor Ilić</string>
+    <string name="author_email">igor@igorilic.net</string>
+    <string name="author_website">https://igorilic.net</string>
+    <string name="report_email">Your e-mail *</string>
+    <string name="report_error_text">Bug *</string>
+    <string name="report_name">Your name *</string>
+    <string name="submit_error">"Submit bug "</string>
+    <string name="bug_reported_error">There was an error, please try again</string>
+    <string name="bug_reported_success">Bug was submitted successfully</string>
+    <string name="accept_terms">I accept this terms</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="app_needs_permissions_to_run">App needs all permissions granted in order to run properly!</string>
+</resources>
