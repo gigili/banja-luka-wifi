@@ -15,7 +15,7 @@ interface NetworkDao {
     @Delete
     fun delete(network: Network)
 
-    @Query("SELECT * FROM networks")
+    @Query("SELECT * FROM networks ORDER BY name ASC")
     fun getAll() : List<Network>
 
     @Query("SELECT * FROM networks WHERE id = :id")
@@ -23,4 +23,7 @@ interface NetworkDao {
 
     @Query("DELETE FROM networks")
     fun deleteAll()
+
+    @Query("SELECT * FROM networks WHERE name LIKE :term ORDER BY name ASC")
+    fun findNetwork(term: String): List<Network>
 }

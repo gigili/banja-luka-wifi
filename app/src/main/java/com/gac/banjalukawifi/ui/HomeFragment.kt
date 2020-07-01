@@ -2,6 +2,8 @@ package com.gac.banjalukawifi.ui
 
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import com.gac.banjalukawifi.db.entities.Network
 import com.gac.banjalukawifi.helpers.AppInstance
 import com.gac.banjalukawifi.helpers.ProgressDialogHelper
 import com.gac.banjalukawifi.helpers.network.VolleyTasks
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.json.JSONArray
 
 
@@ -47,14 +50,32 @@ class HomeFragment : Fragment() {
         lstNetworks.adapter = networkAdapter
         lstNetworks.layoutManager = LinearLayoutManager(requireContext())
 
-        if(AppInstance.globalConfig.isNetworkAvailable()) {
+        if (AppInstance.globalConfig.isNetworkAvailable()) {
             loadNetworks()
-        }else{
+        } else {
             AsyncTask.execute {
                 networkAdapter.clear()
                 networkAdapter.addAll(networkDao.getAll() as ArrayList<Network>)
             }
         }
+
+        try {
+            edtSearch.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p0: Editable?) {}
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    networkAdapter.clear()
+                    AsyncTask.execute {
+                        val term = if (p0.toString().isNotEmpty()) "%${p0.toString()}%" else "%%"
+                        networkAdapter.addAll(networkDao.findNetwork(term) as ArrayList<Network>)
+
+                        lstNetworks.post {
+                            networkAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            })
+        }catch (e : Exception){}
     }
 
     private fun loadNetworks() {
@@ -79,10 +100,10 @@ class HomeFragment : Fragment() {
                         )
                         network.setID(it.optInt("id", 0))
 
-                        AsyncTask.execute{
-                            if(networkDao.get(it.optInt("id", 0)).name.isBlank()) {
+                        AsyncTask.execute {
+                            if (networkDao.get(it.optInt("id", 0)).name.isBlank()) {
                                 networkDao.insert(network)
-                            }else{
+                            } else {
                                 networkDao.update(network)
                             }
                         }
