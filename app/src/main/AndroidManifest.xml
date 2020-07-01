@@ -32,7 +32,7 @@
         android:required="true" />
 
     <application
-        android:name=".helpers.BanjaLukaWiFiApp"
+        android:name=".helpers.AppInstance"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_logo"

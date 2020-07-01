@@ -8,17 +8,24 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.adapters.NetworkAdapter
 import com.gac.banjalukawifi.db.AppDatabase
+import com.gac.banjalukawifi.db.daos.NetworkDao
 import com.gac.banjalukawifi.db.entities.Network
+import com.gac.banjalukawifi.helpers.AppInstance
+import com.gac.banjalukawifi.helpers.ProgressDialogHelper
+import com.gac.banjalukawifi.helpers.network.VolleyTasks
+import org.json.JSONArray
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var appDB: AppDatabase
-    private lateinit var networks: List<Network>
-    private lateinit var networkAdapter : NetworkAdapter
+    private lateinit var networks: ArrayList<Network>
+    private lateinit var networkAdapter: NetworkAdapter
+    private lateinit var networkDao: NetworkDao
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,16 +39,64 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         networks = ArrayList()
-        networkAdapter = NetworkAdapter(networks as ArrayList<Network>)
+        networkAdapter = NetworkAdapter(networks)
         appDB = AppDatabase.getDatabase(requireContext().applicationContext)
+        networkDao = appDB.networkDao()
 
         val lstNetworks = view.findViewById<RecyclerView>(R.id.lstNetwork)
         lstNetworks.adapter = networkAdapter
         lstNetworks.layoutManager = LinearLayoutManager(requireContext())
 
-        AsyncTask.execute {
-            networkAdapter.clear()
-            networkAdapter.addAll(appDB.networkDao().getAll() as ArrayList<Network>)
+        if(AppInstance.globalConfig.isNetworkAvailable()) {
+            loadNetworks()
+        }else{
+            AsyncTask.execute {
+                networkAdapter.clear()
+                networkAdapter.addAll(networkDao.getAll() as ArrayList<Network>)
+            }
         }
+    }
+
+    private fun loadNetworks() {
+        val globalConfig = AppInstance.globalConfig
+        ProgressDialogHelper.showProgressDialog(requireActivity())
+        VolleyTasks.getNetworks(Response.Listener { response ->
+            try {
+                networks.clear()
+                networkAdapter.clear()
+
+                val res = JSONArray(response)
+                (0 until res.length())
+                    .map { res.getJSONObject(it) }
+                    .mapTo(networks) {
+                        val network = Network(
+                            it.optString("name", ""),
+                            it.optString("password", ""),
+                            it.optString("address", ""),
+                            it.optString("geo_lat", ""),
+                            it.optString("geo_long", ""),
+                            it.optString("userID", "")
+                        )
+                        network.setID(it.optInt("id", 0))
+
+                        AsyncTask.execute{
+                            if(networkDao.get(it.optInt("id", 0)).name.isBlank()) {
+                                networkDao.insert(network)
+                            }else{
+                                networkDao.update(network)
+                            }
+                        }
+                        network
+                    }
+
+                networkAdapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                globalConfig.showMessageDialog(getString(R.string.error_loading_networks))
+            } finally {
+                ProgressDialogHelper.hideProgressDialog()
+            }
+        }, Response.ErrorListener { error ->
+            globalConfig.handleExceptionErrors(error)
+        })
     }
 }

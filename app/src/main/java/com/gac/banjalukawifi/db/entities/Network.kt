@@ -17,6 +17,6 @@ class Network(
     }
 
     override fun toString(): String {
-        return "${this.name} \n${this.address}"
+        return "${this.name} | ${this.password}"
     }
 }
