@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "networks")
 class Network(
-    val name: String = "", val password: String = "", val address: String? = null,
-    val geoLat: String? = null, val geoLong: String? = null, val userID: String? = null
+    var name: String = "", var password: String = "", var address: String? = null,
+    var geoLat: String? = null, var geoLong: String? = null, var userID: String? = null
 ) {
 
     @PrimaryKey(autoGenerate = true)

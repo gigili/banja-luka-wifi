@@ -46,4 +46,12 @@
     <string name="double_back_to_exit">Press Back x2 times to exit</string>
     <string name="there_was_an_error">There was an error</string>
     <string name="timeout_error">-1 | Timeoute error</string>
+    <string name="warning">Warning</string>
+    <string name="ok">OK</string>
+    <string name="confirm_quit_app">Confirm quitting the app</string>
+    <string name="confirm_quit_app_message">Are you sure you want to exit the app?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error_loading_networks">There was an error while loading networks</string>
+    <string name="needs_wifi_connection_to_submit">WiFi connection is required before you can add/edit network</string>
 </resources>

@@ -71,7 +71,7 @@ class AppInstance : Application() {
         }
 
         req.retryPolicy = DefaultRetryPolicy(
-            15000,
+            5000,
             0,
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )

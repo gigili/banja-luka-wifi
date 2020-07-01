@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
                     networkAdapter.clear()
                     AsyncTask.execute {
                         val term = if (p0.toString().isNotEmpty()) "%${p0.toString()}%" else "%%"
-                        networkAdapter.addAll(networkDao.findNetwork(term) as ArrayList<Network>)
+                        networkAdapter.addAll(networkDao.findByName(term) as ArrayList<Network>)
 
                         lstNetworks.post {
                             networkAdapter.notifyDataSetChanged()

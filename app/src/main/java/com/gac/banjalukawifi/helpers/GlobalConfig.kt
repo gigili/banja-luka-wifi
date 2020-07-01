@@ -3,7 +3,14 @@ package com.gac.banjalukawifi.helpers
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.ConnectivityManager.TYPE_WIFI
+import android.net.NetworkCapabilities
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
+import android.os.Build
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -18,6 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
+
 
 @Suppress(
     "unused",
@@ -36,7 +44,7 @@ open class GlobalConfig constructor(protected var context: Context) {
     private lateinit var pDialog: AlertDialog
     private val LOG_TAG: String = "BLWIFI_TAG"
     private var PER_PAGE = 20
-    var isConnected :Boolean = false
+    var isConnected: Boolean = false
 
     //Public vars
     var base_url: String
@@ -109,7 +117,7 @@ open class GlobalConfig constructor(protected var context: Context) {
         preferencesEditor.commit()
     }
 
-    fun isNetworkAvailable() : Boolean{
+    fun isNetworkAvailable(): Boolean {
         return isConnected
     }
 
@@ -289,6 +297,39 @@ open class GlobalConfig constructor(protected var context: Context) {
             }
             .setNegativeButton(context.getString(R.string.no)) { dialog, _ -> dialog.cancel() }
             .show()
+    }
+
+    fun isConnectedToWiFi(): Boolean? {
+        val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT < 23) {
+            val ni = connManager.activeNetworkInfo;
+            if (ni != null) {
+                (ni.isConnected && (ni.type == TYPE_WIFI))
+            } else {
+                false
+            }
+        } else {
+            val nc = connManager.getNetworkCapabilities(connManager.activeNetwork)
+            nc?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false
+        }
+    }
+
+    fun getNetworkSSID(): String? {
+        var networkName = ""
+        try {
+            if (isNetworkAvailable() && isConnectedToWiFi() == true) {
+                val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val info: WifiInfo = wifiManager.connectionInfo
+                networkName = info.ssid
+                networkName = networkName.replace("\"", "")
+            }
+
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            return networkName
+        }
+        return networkName
     }
 
     companion object {

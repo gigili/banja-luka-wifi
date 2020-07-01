@@ -46,12 +46,13 @@
     <string name="app_needs_permissions_to_run">Aplikaciji su potrebna sva prava kako bi radila ispravno</string>
     <string name="double_back_to_exit">Pritisnite Nazad x2 da bi ste izašli</string>
     <string name="there_was_an_error">Došlo je do greške</string>
-    <string name="timeout_error" translatable="false">-1 | Nema odgovora od servera</string>
+    <string name="timeout_error">-1 | Nema odgovora od servera</string>
     <string name="warning">Upozorenje</string>
     <string name="ok">OK</string>
     <string name="confirm_quit_app">Potvrdite izlazak iz aplikacije</string>
-    <string name="confirm_quit_app_message">Da li ste sigurni da želite da izađete iz aplikacije</string>
+    <string name="confirm_quit_app_message">Da li ste sigurni da želite da izađete iz aplikacije?</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
     <string name="error_loading_networks">Došlo je do greške prilikom učitavanja mreža</string>
+    <string name="needs_wifi_connection_to_submit">Potrebna je WiFi konekcija da bi mogli da dodate/uredite mrežu</string>
 </resources>

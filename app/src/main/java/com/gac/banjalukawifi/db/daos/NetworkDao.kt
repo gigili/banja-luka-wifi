@@ -25,5 +25,5 @@ interface NetworkDao {
     fun deleteAll()
 
     @Query("SELECT * FROM networks WHERE name LIKE :term ORDER BY name ASC")
-    fun findNetwork(term: String): List<Network>
+    fun findByName(term: String): List<Network>
 }
