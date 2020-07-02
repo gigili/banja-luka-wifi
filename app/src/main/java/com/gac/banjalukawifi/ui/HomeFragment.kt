@@ -1,5 +1,9 @@
 package com.gac.banjalukawifi.ui
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Editable
@@ -10,17 +14,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Response
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.adapters.NetworkAdapter
 import com.gac.banjalukawifi.db.AppDatabase
 import com.gac.banjalukawifi.db.daos.NetworkDao
 import com.gac.banjalukawifi.db.entities.Network
 import com.gac.banjalukawifi.helpers.AppInstance
-import com.gac.banjalukawifi.helpers.ProgressDialogHelper
-import com.gac.banjalukawifi.helpers.network.VolleyTasks
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.json.JSONArray
 
 
 class HomeFragment : Fragment() {
@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var networks: ArrayList<Network>
     private lateinit var networkAdapter: NetworkAdapter
     private lateinit var networkDao: NetworkDao
+    private lateinit var lstNetworks: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,23 +42,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val gl = AppInstance.globalConfig
+
         networks = ArrayList()
         networkAdapter = NetworkAdapter(networks)
         appDB = AppDatabase.getDatabase(requireContext().applicationContext)
         networkDao = appDB.networkDao()
 
-        val lstNetworks = view.findViewById<RecyclerView>(R.id.lstNetwork)
+        requireContext().registerReceiver(
+            broadcastReceiver,
+            IntentFilter("BLWIFI_NETWORKS_UPDATED")
+        )
+
+        lstNetworks = view.findViewById(R.id.lstNetwork)
         lstNetworks.adapter = networkAdapter
         lstNetworks.layoutManager = LinearLayoutManager(requireContext())
 
-        if (AppInstance.globalConfig.isNetworkAvailable()) {
-            loadNetworks()
-        } else {
-            AsyncTask.execute {
-                networkAdapter.clear()
-                networkAdapter.addAll(networkDao.getAll() as ArrayList<Network>)
-            }
-        }
+        loadNetworks()
 
         try {
             edtSearch.addTextChangedListener(object : TextWatcher {
@@ -75,49 +76,35 @@ class HomeFragment : Fragment() {
                     }
                 }
             })
-        }catch (e : Exception){}
+        } catch (e: Exception) {
+        }
+    }
+
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                "BLWIFI_NETWORKS_UPDATED" -> {
+                    loadNetworks()
+                }
+            }
+        }
     }
 
     private fun loadNetworks() {
-        val globalConfig = AppInstance.globalConfig
-        ProgressDialogHelper.showProgressDialog(requireActivity())
-        VolleyTasks.getNetworks(Response.Listener { response ->
+        networkAdapter.clear()
+        AsyncTask.execute {
             try {
-                networks.clear()
-                networkAdapter.clear()
-
-                val res = JSONArray(response)
-                (0 until res.length())
-                    .map { res.getJSONObject(it) }
-                    .mapTo(networks) {
-                        val network = Network(
-                            it.optString("name", ""),
-                            it.optString("password", ""),
-                            it.optString("address", ""),
-                            it.optString("geo_lat", ""),
-                            it.optString("geo_long", ""),
-                            it.optString("userID", "")
-                        )
-                        network.setID(it.optInt("id", 0))
-
-                        AsyncTask.execute {
-                            if (networkDao.get(it.optInt("id", 0)).name.isBlank()) {
-                                networkDao.insert(network)
-                            } else {
-                                networkDao.update(network)
-                            }
-                        }
-                        network
-                    }
-
-                networkAdapter.notifyDataSetChanged()
-            } catch (e: Exception) {
-                globalConfig.showMessageDialog(getString(R.string.error_loading_networks))
-            } finally {
-                ProgressDialogHelper.hideProgressDialog()
+                networkAdapter.addAll(networkDao.getAll() as ArrayList<Network>)
+                lstNetworks.post {
+                    networkAdapter.notifyDataSetChanged()
+                }
+            } catch (e: java.lang.Exception) {
             }
-        }, Response.ErrorListener { error ->
-            globalConfig.handleExceptionErrors(error)
-        })
+        }
+    }
+
+    override fun onDestroy() {
+        requireContext().unregisterReceiver(broadcastReceiver)
+        super.onDestroy()
     }
 }

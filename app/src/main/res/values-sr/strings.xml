@@ -54,4 +54,5 @@
     <string name="warning">Upozorenje</string>
     <string name="ok">OK</string>
     <string name="confirm_quit_app">Potvrdite izlazak iz aplikacije</string>
+    <string name="networks_updating">Ažuriramo mreže. Molimo pričekajte.</string>
 </resources>

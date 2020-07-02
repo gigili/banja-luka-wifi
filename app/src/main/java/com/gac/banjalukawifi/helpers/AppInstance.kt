@@ -2,6 +2,7 @@ package com.gac.banjalukawifi.helpers
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
@@ -16,6 +17,7 @@ class AppInstance : Application() {
     private var volleyRequestQueue: RequestQueue? = null
     private val VOLLEY_DEFAULT_TAG = "BLWIFIVolleyDefaultTag"
     private var isMonitoringConnectivity = false
+
     override fun onCreate() {
         super.onCreate()
 
@@ -113,11 +115,21 @@ class AppInstance : Application() {
         override fun onAvailable(network: android.net.Network) {
             super.onAvailable(network)
             globalConfig.isConnected = true
+            sendBroadcast(Intent("BLWIFI_NETWORK_ONLINE"))
         }
 
         override fun onLost(network: android.net.Network) {
             super.onLost(network)
             globalConfig.isConnected = false
+            sendBroadcast(Intent("BLWIFI_NETWORK_OFFLINE"))
+        }
+
+        override fun onCapabilitiesChanged(network: android.net.Network, networkCapabilities: NetworkCapabilities) {
+            super.onCapabilitiesChanged(network, networkCapabilities)
+            globalConfig.isConnected = (
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+            )
         }
     }
 

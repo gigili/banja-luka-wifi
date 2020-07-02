@@ -54,4 +54,5 @@
     <string name="no">No</string>
     <string name="error_loading_networks">There was an error while loading networks</string>
     <string name="needs_wifi_connection_to_submit">WiFi connection is required before you can add/edit network</string>
+    <string name="networks_updating">Updating networks. Please wait.</string>
 </resources>

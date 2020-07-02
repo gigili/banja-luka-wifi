@@ -55,4 +55,5 @@
     <string name="no">Ne</string>
     <string name="error_loading_networks">Došlo je do greške prilikom učitavanja mreža</string>
     <string name="needs_wifi_connection_to_submit">Potrebna je WiFi konekcija da bi mogli da dodate/uredite mrežu</string>
+    <string name="networks_updating">Ažuriramo mreže. Molimo pričekajte.</string>
 </resources>

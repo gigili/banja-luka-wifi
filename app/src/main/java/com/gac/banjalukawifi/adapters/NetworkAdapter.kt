@@ -45,18 +45,15 @@ class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Ad
 
     fun clear() {
         networks.clear()
-        notifyDataSetChanged()
     }
 
     fun add(network: Network): Boolean {
         networks.add(network)
-        notifyDataSetChanged()
         return true
     }
 
     fun addAll(ns: ArrayList<Network>): Boolean {
         networks.addAll(ns)
-        notifyDataSetChanged()
         return true
     }
 }

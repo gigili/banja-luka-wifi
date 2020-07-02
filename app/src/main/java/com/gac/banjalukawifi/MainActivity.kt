@@ -2,11 +2,15 @@ package com.gac.banjalukawifi
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.Html
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -14,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gac.banjalukawifi.helpers.AppInstance
+import com.gac.banjalukawifi.helpers.CustomBaseActivity
 import com.gac.banjalukawifi.helpers.GlobalConfig
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -21,12 +26,13 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : CustomBaseActivity() {
 
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
     private var doubleBackToExitPressedOnce = false
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,6 +59,26 @@ class MainActivity : AppCompatActivity() {
                 ),
                 153
             )
+        }
+
+        if (AppInstance.globalConfig.getBooleanPref("first_run")) {
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setTitle(resources.getString(R.string.terms_of_use))
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                builder.setMessage(Html.fromHtml(applicationContext.getString(R.string.terms_and_conditions), Html.FROM_HTML_MODE_LEGACY))
+            } else {
+                builder.setMessage(Html.fromHtml(applicationContext.getString(R.string.terms_and_conditions)))
+            }
+
+            builder.setPositiveButton(resources.getString(R.string.accept_terms)) { _: DialogInterface, _: Int ->
+                run {
+                    AppInstance.globalConfig.setBooleanPref("first_run", false)
+                }
+            }
+            builder.setCancelable(false)
+            builder.show()
         }
 
         navView = findViewById(R.id.nav_view)
@@ -94,6 +120,10 @@ class MainActivity : AppCompatActivity() {
             status
         }
 
+        if(AppInstance.globalConfig.isConnectedToNetwork()){
+            sendBroadcast(Intent("BLWIFI_NETWORK_ONLINE"))
+        }
+
         initializeAds()
     }
 
@@ -130,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
             this.doubleBackToExitPressedOnce = true
 
-            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
         }
     }
 

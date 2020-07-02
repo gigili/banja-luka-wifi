@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.TYPE_WIFI
 import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -69,8 +70,6 @@ open class GlobalConfig constructor(protected var context: Context) {
         if (this.base_url != getStringPref("base_url") && getStringPref("base_url").isNotEmpty()) {
             this.base_url = getStringPref("base_url")
         }
-
-        setBooleanPref("disable_app", false)
     }
 
     fun getPreferences(): SharedPreferences {
@@ -86,7 +85,7 @@ open class GlobalConfig constructor(protected var context: Context) {
     }
 
     fun getBooleanPref(name: String): Boolean {
-        return preferences.getBoolean(name, false)
+        return preferences.getBoolean(name, true)
     }
 
     fun getIntPref(name: String): Int {
@@ -118,7 +117,39 @@ open class GlobalConfig constructor(protected var context: Context) {
     }
 
     fun isNetworkAvailable(): Boolean {
-        return isConnected
+        return if (Build.VERSION.SDK_INT < 23) {
+            val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+            val mWifi: NetworkInfo? = connManager.activeNetworkInfo
+            (mWifi != null && mWifi.isConnected)
+        } else {
+            isConnected
+        }
+    }
+
+    fun isConnectedToWiFi(): Boolean? {
+        val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT < 23) {
+            val ni = connManager.activeNetworkInfo;
+            if (ni != null) {
+                (ni.isConnected && (ni.type == TYPE_WIFI))
+            } else {
+                false
+            }
+        } else {
+            val nc = connManager.getNetworkCapabilities(connManager.activeNetwork)
+            nc?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false
+        }
+    }
+
+    fun isConnectedToNetwork(): Boolean {
+        val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT < 23) {
+            val ni = connManager.activeNetworkInfo;
+            ni?.isConnected ?: false
+        } else {
+            val nc = connManager.getNetworkCapabilities(connManager.activeNetwork)
+            (nc?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false || nc?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false)
+        }
     }
 
     fun logMsg(str: String, tag: String? = null, logLevel: Level = Level.INFO) {
@@ -297,21 +328,6 @@ open class GlobalConfig constructor(protected var context: Context) {
             }
             .setNegativeButton(context.getString(R.string.no)) { dialog, _ -> dialog.cancel() }
             .show()
-    }
-
-    fun isConnectedToWiFi(): Boolean? {
-        val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        return if (Build.VERSION.SDK_INT < 23) {
-            val ni = connManager.activeNetworkInfo;
-            if (ni != null) {
-                (ni.isConnected && (ni.type == TYPE_WIFI))
-            } else {
-                false
-            }
-        } else {
-            val nc = connManager.getNetworkCapabilities(connManager.activeNetwork)
-            nc?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false
-        }
     }
 
     fun getNetworkSSID(): String? {
