@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,38 +14,104 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.gac.banjalukawifi.R
-import com.gac.banjalukawifi.db.AppDatabase
-import com.gac.banjalukawifi.db.daos.NetworkDao
-import com.gac.banjalukawifi.db.entities.Network
 import com.gac.banjalukawifi.helpers.AppInstance
+import com.gac.banjalukawifi.helpers.GlobalConfig
 import kotlinx.android.synthetic.main.fragment_add_edit_network.*
 
 class AddEditNetworkFragment : Fragment() {
 
-    private lateinit var networkDao: NetworkDao
-    private var network: Network? = Network()
-    private var geoLat: Double = 0.0
-    private var geoLong: Double = 0.0
-    private var provider: String = LocationManager.NETWORK_PROVIDER
+    private lateinit var globalConfig: GlobalConfig
+    private var geo_lat: Double = 0.0
+    private var geo_long: Double = 0.0
+    private var btnSave: Button? = null
     private var mLocationManager: LocationManager? = null
+    private var canSubmit: Boolean = true
+    private var provider: String = LocationManager.NETWORK_PROVIDER
+    private var userID = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_add_edit_network, container, false)
+    private var v: View? = null
 
-        mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        globalConfig = AppInstance.globalConfig
+        userID = globalConfig.getUserID() //TODO("GET USER ID IN NEW WAY")
+
+        mLocationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
         try {
-            if (mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            if (mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 provider = LocationManager.GPS_PROVIDER
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        v = inflater.inflate(R.layout.fragment_add_edit_network, container, false)
+
+        getUserLocation()
+
+        /*if (globalConfig!!.isNetworkAvailable && DatabaseHelper.checkIfNetworkExists(globalConfig!!.networkSSID)) {
+            if (globalConfig != null && globalConfig!!.networkSSID != null) {
+                val network: NetworkModel? = DatabaseHelper.getNetwork(0, globalConfig!!.networkSSID)
+                if (network != null) {
+                    txtAddress.setText(network.address)
+                    txtPassword.setText(network.password)
+                    networkID = network.id
+                }
+            }
+        }*/
 
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (!globalConfig.isNetworkAvailable())
+            canSubmit = false
+
+        edtNetworkName.setText(globalConfig.getNetworkSSID())
+
+        edtNetworkName.isEnabled = false
+        edtNetworkName.setText(globalConfig.getNetworkSSID())
+
+        /*btnSave.setOnClickListener {
+
+            if (edtNetworkName.text.isEmpty()) {
+                edtNetworkName.error = getString(R.string.field_required)
+                canSubmit = false
+            }
+
+
+            if (edtNetworkPassword.text.isEmpty()) {
+                edtNetworkPassword.error = getString(R.string.field_required)
+                canSubmit = false
+            }
+
+            if (geo_lat == 0.0 && geo_long == 0.0) {
+                canSubmit = false
+                btnSave!!.isEnabled = false
+                globalConfig.notifyMSG(getString(R.string.waiting_for_location))
+            }
+
+            if (canSubmit) {
+                requireContext().let {
+                    *//*VolleyTasks.addEditNetwork(
+                        it1,
+                        edtNetworkName.text,
+                        txtAddress.text,
+                        edtNetworkPassword.text,
+                        btnSave!!,
+                        userID,
+                        networkID,
+                        geo_lat,
+                        geo_long
+                    )*//*
+                    //TODO("CREATE SUBMIT ENDPOINT")
+                }
+            }
+        }*/
     }
 
     private fun getUserLocation() {
@@ -54,73 +119,6 @@ class AddEditNetworkFragment : Fragment() {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 10001)
         } catch (e: Exception) {
             e.printStackTrace()
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val appDB = AppDatabase.getDatabase(requireContext().applicationContext)
-        networkDao = appDB.networkDao()
-
-        val gl = AppInstance.globalConfig
-
-        if (gl.isConnectedToWiFi()!!) {
-            val networkName = gl.getNetworkSSID()
-            if (networkName == null || networkName.isBlank() || networkName == "<unknown ssid>") {
-                disableSubmitButton()
-            } else {
-                getNetwork()
-                edtNetworkName.setText(networkName)
-            }
-        } else {
-            disableSubmitButton()
-        }
-
-        val mBntSave = view.findViewById<Button>(R.id.btnSave)
-        mBntSave.setOnClickListener {
-            submitNetwork()
-        }
-    }
-
-    private fun disableSubmitButton() {
-        btnSave.isEnabled = false
-        AppInstance.globalConfig.showMessageDialog(getString(R.string.needs_wifi_connection_to_submit))
-    }
-
-    private fun getNetwork() {
-        AsyncTask.execute {
-            network = networkDao.findByName("%${edtNetworkName.text}%").find {
-                it.name == edtNetworkName.text.toString()
-            }
-
-            if (network != null) {
-                edtNetworkName.setText(network!!.name)
-                edtNetworkPassword.setText(network!!.password)
-                edtNetworkAddress.setText(network!!.address)
-            }
-        }
-    }
-
-    private fun submitNetwork() {
-        AsyncTask.execute {
-            if (network == null) {
-                network = Network()
-            }
-
-            network!!.name = edtNetworkName.text.toString()
-            network!!.password = edtNetworkPassword.text.toString()
-            network!!.address = edtNetworkAddress.text.toString()
-
-            if (network!!.id.toString().isNotBlank()) {
-                networkDao.update(network!!)
-            } else {
-                networkDao.insert(network!!)
-            }
-
-            this@AddEditNetworkFragment.run {
-                AppInstance.globalConfig.showMessageDialog(getString(R.string.network_saved_success))
-            }
         }
     }
 
@@ -133,27 +131,30 @@ class AddEditNetworkFragment : Fragment() {
                 mLocationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null -> {
                     provider = LocationManager.GPS_PROVIDER
                     loc = mLocationManager!!.getLastKnownLocation(provider)
-                    geoLat = loc.latitude
-                    geoLong = loc.longitude
+                    geo_lat = loc.latitude
+                    geo_long = loc.longitude
                 }
                 mLocationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null -> {
                     provider = LocationManager.NETWORK_PROVIDER
                     loc = mLocationManager!!.getLastKnownLocation(provider)
-                    geoLat = loc.latitude
-                    geoLong = loc.longitude
+                    geo_lat = loc.latitude
+                    geo_long = loc.longitude
                 }
                 else -> mLocationManager!!.requestLocationUpdates(provider, 10.toLong(), 50.toFloat(), mLocationListener)
             }
+        } else {
+            globalConfig.notifyMSG(getString(R.string.permission_need_to_work))
         }
     }
 
     private val mLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            geoLat = location.latitude
-            geoLong = location.longitude
+            geo_lat = location.latitude
+            geo_long = location.longitude
 
             btnSave!!.isEnabled = true
             mLocationManager!!.removeUpdates(this)
+            canSubmit = true
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -166,4 +167,5 @@ class AddEditNetworkFragment : Fragment() {
         super.onPause()
         mLocationManager!!.removeUpdates(mLocationListener)
     }
+
 }

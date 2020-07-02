@@ -330,6 +330,10 @@ open class GlobalConfig constructor(protected var context: Context) {
             .show()
     }
 
+    fun getUserID() : String{
+        return ""
+    }
+
     fun getNetworkSSID(): String? {
         var networkName = ""
         try {
