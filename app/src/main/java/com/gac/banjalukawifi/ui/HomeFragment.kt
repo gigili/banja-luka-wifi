@@ -96,6 +96,7 @@ class HomeFragment : Fragment() {
             try {
                 networkAdapter.addAll(networkDao.getAll() as ArrayList<Network>)
                 lstNetworks.post {
+                    edtSearch.setText("")
                     networkAdapter.notifyDataSetChanged()
                 }
             } catch (e: java.lang.Exception) {
