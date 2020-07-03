@@ -20,8 +20,8 @@
     <string name="field_required">This field is required</string>
     <string name="waiting_for_location">Waiting for location</string>
     <string name="permission_need_to_work">That permission was required for the app to work</string>
-    <string name="network_saved_success">Network saved successfully</string>
-    <string name="network_saved_error">There was an error while saving the network</string>
+    <string name="network_saved_success">Network saved successfully. The network will show up inside of the app once it is approved by an admin.</string>
+    <string name="network_saved_error">There was an error while saving the network. Please try again later.</string>
     <string name="internet_required">Internet connection is required</string>
     <string name="wifi_internet_required">WiFi internet connection is required</string>
     <string name="report_bug">Report a bug</string>
@@ -55,4 +55,7 @@
     <string name="error_loading_networks">There was an error while loading networks</string>
     <string name="needs_wifi_connection_to_submit">WiFi connection is required before you can add/edit network</string>
     <string name="networks_updating">Updating networks. Please wait.</string>
+    <string name="location_required_to_run">The application requires location permission to be granted in order to run properly.</string>
+    <string name="no_network_response">-2 | There was an error while communicating with the server</string>
+    <string name="notice">Notice</string>
 </resources>

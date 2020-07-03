@@ -18,8 +18,8 @@
     <string name="field_required">Ovo polje je obavezno</string>
     <string name="waiting_for_location">Pričekajte dok pronađemo vašu lokaciju</string>
     <string name="permission_need_to_work">Ta dozvola je potrebna za rad aplikacije</string>
-    <string name="network_saved_success">Mreža uspješno sačuvana</string>
-    <string name="network_saved_error">Došlo je do greške prilikom čuvanja mreže</string>
+    <string name="network_saved_success">Mreža uspješno sačuvana. Mreža će se pojaviti u aplikaciji, nakon što bude odobrena od strane administratora.</string>
+    <string name="network_saved_error">Došlo je do greške prilikom čuvanja mreže. Molimo probajte kasnije.</string>
     <string name="internet_required">Internet konekcija je potrebna</string>
     <string name="wifi_internet_required">WiFi internet konekcija je potrebna</string>
     <string name="report_bug">Prijavite grešku</string>
@@ -55,4 +55,7 @@
     <string name="ok">OK</string>
     <string name="confirm_quit_app">Potvrdite izlazak iz aplikacije</string>
     <string name="networks_updating">Ažuriramo mreže. Molimo pričekajte.</string>
+    <string name="location_required_to_run">Aplikaciji je potreban pristup lokaciji kako bi mogla da radi.</string>
+    <string name="no_network_response">-2 | Greška prilikom komunikacije sa serverom</string>
+    <string name="notice">Obavještenje</string>
 </resources>

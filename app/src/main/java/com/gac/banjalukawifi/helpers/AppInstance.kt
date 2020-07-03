@@ -2,21 +2,16 @@ package com.gac.banjalukawifi.helpers
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.text.TextUtils
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.helpers.network.CustomVolleyError
-import org.json.JSONObject
 
 class AppInstance : Application() {
     private var volleyRequestQueue: RequestQueue? = null
-    private val VOLLEY_DEFAULT_TAG = "BLWIFIVolleyDefaultTag"
-    private var isMonitoringConnectivity = false
+    private val volleyDefaultTag = "BLWIFIVolleyDefaultTag"
 
     override fun onCreate() {
         super.onCreate()
@@ -24,16 +19,12 @@ class AppInstance : Application() {
         appContext = applicationContext
         appInstance = this
         globalConfig = GlobalConfig(applicationContext)
-
-        if (!isMonitoringConnectivity) {
-            checkConnectivity()
-        }
     }
 
     fun callAPI(
         method: Int,
         operationPath: String,
-        params: JSONObject?,
+        params: HashMap<String, String>?,
         successListener: Response.Listener<String>,
         errorListener: Response.ErrorListener
     ) {
@@ -43,16 +34,15 @@ class AppInstance : Application() {
         val req: StringRequest
 
         req = object : StringRequest(method, url, successListener, errorListener) {
-
-            override fun getBody(): ByteArray {
-                return params?.toString()?.toByteArray() ?: ByteArray(0)
+            override fun getParams(): Map<String, String> {
+                return params ?: HashMap()
             }
 
             override fun parseNetworkError(volleyError: VolleyError?): VolleyError {
                 if (volleyError?.networkResponse == null) {
                     return super.parseNetworkError(
                         CustomVolleyError(
-                            "Empty network response",
+                            getString(R.string.no_network_response),
                             null,
                             url,
                             method
@@ -82,21 +72,20 @@ class AppInstance : Application() {
         addToRequestQueue(req, url)
     }
 
-    private fun getmRequestQueue(): RequestQueue? {
+    private fun getRequestQueue(): RequestQueue? {
         if (volleyRequestQueue == null) {
             volleyRequestQueue = Volley.newRequestQueue(applicationContext)
         }
         return volleyRequestQueue
     }
 
-
     private fun <T> addToRequestQueue(req: Request<T>, tag: String) {
-        req.tag = if (TextUtils.isEmpty(tag)) VOLLEY_DEFAULT_TAG else tag
-        getmRequestQueue()?.add(req)
+        req.tag = if (TextUtils.isEmpty(tag)) volleyDefaultTag else tag
+        getRequestQueue()?.add(req)
     }
 
     private fun cancelPendingRequests(tag: String) {
-        getmRequestQueue()?.cancelAll(tag)
+        getRequestQueue()?.cancelAll(tag)
     }
 
     companion object {
@@ -109,38 +98,5 @@ class AppInstance : Application() {
             set(mAppContext) {
                 AppInstance.mAppContext = mAppContext
             }
-    }
-
-    private val connectivityCallback: ConnectivityManager.NetworkCallback = object : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: android.net.Network) {
-            super.onAvailable(network)
-            globalConfig.isConnected = true
-            sendBroadcast(Intent("BLWIFI_NETWORK_ONLINE"))
-        }
-
-        override fun onLost(network: android.net.Network) {
-            super.onLost(network)
-            globalConfig.isConnected = false
-            sendBroadcast(Intent("BLWIFI_NETWORK_OFFLINE"))
-        }
-
-        override fun onCapabilitiesChanged(network: android.net.Network, networkCapabilities: NetworkCapabilities) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            globalConfig.isConnected = (
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-            )
-        }
-    }
-
-    private fun checkConnectivity() {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (!isMonitoringConnectivity) {
-            connectivityManager.registerNetworkCallback(
-                NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
-                connectivityCallback
-            )
-            isMonitoringConnectivity = true
-        }
     }
 }

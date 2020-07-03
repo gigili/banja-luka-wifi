@@ -10,6 +10,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
+import com.gac.banjalukawifi.BuildConfig
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.db.AppDatabase
 import com.gac.banjalukawifi.db.entities.Network
@@ -20,7 +21,6 @@ import org.json.JSONArray
 open class CustomBaseActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: AlertDialog
-    //private lateinit var broadcastReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,7 @@ open class CustomBaseActivity : AppCompatActivity() {
 
         val lastNetworkUpdate = AppInstance.globalConfig.getLongPref("lastNetworkUpdate")
         //TODO("Move this interval into a settings screen and allow the user to choose how often the networks should updated")
-        if (lastNetworkUpdate != -1L && (System.currentTimeMillis() - lastNetworkUpdate) < 1500) { // 3600000 => 1h intervals
+        if (lastNetworkUpdate != -1L && (System.currentTimeMillis() - lastNetworkUpdate) < BuildConfig.networkUpdateInterval.toLong()) {
             return //No need to run frequent updates of networks
         }
 

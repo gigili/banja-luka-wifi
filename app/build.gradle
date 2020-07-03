@@ -22,10 +22,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "testAdDeviceID", "\"\"")
+            buildConfigField("Integer", "networkUpdateInterval", "3600000")
         }
 
         debug {
             buildConfigField("String", "testAdDeviceID", "\"CA58191B56AF12D6E6232AA11D7E8A40\"")
+            buildConfigField("Integer", "networkUpdateInterval", "1500")
         }
 
         packagingOptions {
@@ -71,6 +73,6 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
 
-    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'//
 
 }

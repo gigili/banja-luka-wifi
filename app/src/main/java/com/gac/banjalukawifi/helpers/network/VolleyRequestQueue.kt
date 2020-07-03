@@ -8,7 +8,7 @@ import com.android.volley.toolbox.Volley
 import com.gac.banjalukawifi.helpers.AppInstance
 
 class VolleyRequestQueue private constructor() {
-    val requestQueue: RequestQueue = Volley.newRequestQueue(AppInstance.appContext)
+    private val requestQueue: RequestQueue = Volley.newRequestQueue(AppInstance.appContext)
     private val imageLoader: ImageLoader
 
     init {

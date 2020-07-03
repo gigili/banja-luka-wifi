@@ -140,7 +140,6 @@ class MainActivity : CustomBaseActivity() {
             .Builder()
             .build()
         adView.loadAd(adRequest)
-
     }
 
     @SuppressLint("RestrictedApi")

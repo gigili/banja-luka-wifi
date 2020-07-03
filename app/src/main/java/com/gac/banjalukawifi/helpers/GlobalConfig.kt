@@ -8,7 +8,6 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.TYPE_WIFI
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -28,52 +27,46 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 
-@Suppress(
+/*@Suppress(
     "unused",
     "MemberVisibilityCanBePrivate",
     "PropertyName",
     "PrivatePropertyName",
     "UNUSED_PARAMETER",
     "CommitPrefEdits"
-)
+)*/
 open class GlobalConfig constructor(protected var context: Context) {
 
 
     //Private & protected vars
     private val preferences: SharedPreferences
-    private val preferencesEditor: SharedPreferences.Editor
-    private lateinit var pDialog: AlertDialog
-    private val LOG_TAG: String = "BLWIFI_TAG"
-    private var PER_PAGE = 20
-    var isConnected: Boolean = false
+    private lateinit var preferencesEditor: SharedPreferences.Editor
+    private val logTag: String = "BLWIFI_TAG"
+    private var perPage = 20
+    private var baseUrl: String
 
-    //Public vars
-    var base_url: String
+    //Public vars?
+    var isConnected: Boolean = false
 
     init {
         @Suppress("LocalVariableName")
         val PREFS_TAG = "MyPrivateGlobalPrefs${context.applicationContext.packageName}"
 
-        this.base_url = "https://banjalukawifi.igorilic.net/index.php/api/"
+        this.baseUrl = "https://banjalukawifi.igorilic.net/index.php/api/"
 
         preferences = context.getSharedPreferences(PREFS_TAG, 0)
-        preferencesEditor = preferences.edit()
 
         if (getStringPref("base_url").isEmpty()) {
-            setStringPref("base_url", base_url)
+            setStringPref("base_url", baseUrl)
         }
 
         if (getIntPref("PER_PAGE") == -1) {
-            setIntPref("PER_PAGE", PER_PAGE)
+            setIntPref("PER_PAGE", perPage)
         }
 
-        if (this.base_url != getStringPref("base_url") && getStringPref("base_url").isNotEmpty()) {
-            this.base_url = getStringPref("base_url")
+        if (this.baseUrl != getStringPref("base_url") && getStringPref("base_url").isNotEmpty()) {
+            this.baseUrl = getStringPref("base_url")
         }
-    }
-
-    fun getPreferences(): SharedPreferences {
-        return preferences
     }
 
     fun getStringPref(name: String): String {
@@ -97,36 +90,30 @@ open class GlobalConfig constructor(protected var context: Context) {
     }
 
     fun setLongPref(name: String, value: Long?) {
+        preferencesEditor = preferences.edit()
         preferencesEditor.putLong(name, value!!)
-        preferencesEditor.commit()
+        preferencesEditor.apply()
     }
 
     fun setBooleanPref(name: String, value: Boolean?) {
+        preferencesEditor = preferences.edit()
         preferencesEditor.putBoolean(name, value!!)
-        preferencesEditor.commit()
+        preferencesEditor.apply()
     }
 
     fun setStringPref(name: String, value: String) {
+        preferencesEditor = preferences.edit()
         preferencesEditor.putString(name, value)
-        preferencesEditor.commit()
+        preferencesEditor.apply()
     }
 
     fun setIntPref(name: String, value: Int) {
+        preferencesEditor = preferences.edit()
         preferencesEditor.putInt(name, value)
-        preferencesEditor.commit()
+        preferencesEditor.apply()
     }
 
-    fun isNetworkAvailable(): Boolean {
-        return if (Build.VERSION.SDK_INT < 23) {
-            val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-            val mWifi: NetworkInfo? = connManager.activeNetworkInfo
-            (mWifi != null && mWifi.isConnected)
-        } else {
-            isConnected
-        }
-    }
-
-    fun isConnectedToWiFi(): Boolean? {
+    fun isConnectedToWiFi(): Boolean {
         val connManager = context.applicationContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         return if (Build.VERSION.SDK_INT < 23) {
             val ni = connManager.activeNetworkInfo;
@@ -154,7 +141,7 @@ open class GlobalConfig constructor(protected var context: Context) {
 
     fun logMsg(str: String, tag: String? = null, logLevel: Level = Level.INFO) {
         val log = Logger.getAnonymousLogger()
-        val logTag = tag ?: LOG_TAG
+        val logTag = tag ?: logTag
         val logString = "$logTag | $str"
         log.log(logLevel, logString)
     }
@@ -330,26 +317,24 @@ open class GlobalConfig constructor(protected var context: Context) {
             .show()
     }
 
-    fun getUserID() : String{
+    fun getUserID(): String {
         return ""
     }
 
-    fun getNetworkSSID(): String? {
+    fun getNetworkSSID(): String {
         var networkName = ""
         try {
-            if (isNetworkAvailable() && isConnectedToWiFi() == true) {
+            if (isConnectedToWiFi() == true) {
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
                 val info: WifiInfo = wifiManager.connectionInfo
                 networkName = info.ssid
                 networkName = networkName.replace("\"", "")
             }
-
-
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+        } finally {
             return networkName
         }
-        return networkName
     }
 
     companion object {
