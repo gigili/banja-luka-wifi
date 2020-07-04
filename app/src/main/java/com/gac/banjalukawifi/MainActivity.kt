@@ -120,12 +120,17 @@ class MainActivity : CustomBaseActivity() {
                     navController.navigate(R.id.action_global_navigation_report_bug)
                     status = true
                 }
+
+                R.id.navigation_about -> {
+                    navController.navigate(R.id.action_global_navigation_about)
+                    status = true
+                }
             }
 
             status
         }
 
-        if(AppInstance.globalConfig.isConnectedToNetwork()){
+        if (AppInstance.globalConfig.isConnectedToNetwork()) {
             sendBroadcast(Intent("BLWIFI_NETWORK_ONLINE"))
         }
 

@@ -30,7 +30,7 @@
     <string name="author_name">Igor Ilić</string>
     <string name="author_email">igor@igorilic.net</string>
     <string name="author_website">https://igorilic.net</string>
-    <string name="app_version" translatable="false">2.4</string>
+    <string name="app_version" translatable="false">3.0</string>
     <string name="report_name">Vaše ime *</string>
     <string name="report_email">Vaš e-mail</string>
     <string name="report_error_text">Greška *</string>

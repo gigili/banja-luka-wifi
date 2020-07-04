@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.gac.banjalukawifi.ui.HomeFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_navigation_add_edit"
             app:destination="@id/nav_add_edit" />
@@ -19,7 +19,7 @@
         android:id="@+id/nav_add_edit"
         android:name="com.gac.banjalukawifi.ui.AddEditNetworkFragment"
         android:label="@string/title_add_edit_network"
-        tools:layout="@layout/fragment_add_edit_network" >
+        tools:layout="@layout/fragment_add_edit_network">
         <action
             android:id="@+id/action_navigation_add_edit_to_navigation_map"
             app:destination="@id/nav_map" />
@@ -29,15 +29,27 @@
         android:id="@+id/nav_map"
         android:name="com.gac.banjalukawifi.ui.MapsFragment"
         android:label="@string/title_map"
-        tools:layout="@layout/fragment_maps" >
+        tools:layout="@layout/fragment_maps">
+        <action
+            android:id="@+id/action_nav_map_to_nav_bug"
+            app:destination="@id/nav_bug" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_bug"
         android:name="com.gac.banjalukawifi.ui.ReportBugFragment"
         android:label="@string/title_report_bug"
-        tools:layout="@layout/fragment_report_bug" >
+        tools:layout="@layout/fragment_report_bug">
+        <action
+            android:id="@+id/action_nav_bug_to_nav_about"
+            app:destination="@id/nav_about" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.gac.banjalukawifi.ui.AboutFragment"
+        android:label="@string/about_app"
+        tools:layout="@layout/fragment_about" />
 
     <action
         android:id="@+id/action_global_navigation_home"
@@ -54,5 +66,9 @@
     <action
         android:id="@+id/action_global_navigation_report_bug"
         app:destination="@id/nav_bug" />
+
+    <action
+        android:id="@+id/action_global_navigation_about"
+        app:destination="@id/nav_about" />
 
 </navigation>
