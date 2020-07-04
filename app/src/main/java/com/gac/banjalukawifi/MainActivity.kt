@@ -126,7 +126,6 @@ class MainActivity : CustomBaseActivity() {
                     status = true
                 }
             }
-
             status
         }
 
