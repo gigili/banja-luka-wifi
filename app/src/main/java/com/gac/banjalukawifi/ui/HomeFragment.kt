@@ -105,7 +105,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        requireContext().unregisterReceiver(broadcastReceiver)
+        try { requireContext().unregisterReceiver(broadcastReceiver) }catch (e : Exception){}
         super.onDestroy()
     }
 }

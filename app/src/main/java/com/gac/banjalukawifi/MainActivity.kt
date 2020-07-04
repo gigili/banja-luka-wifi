@@ -8,14 +8,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.text.Html
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gac.banjalukawifi.helpers.AppInstance
 import com.gac.banjalukawifi.helpers.CustomBaseActivity
@@ -65,7 +63,6 @@ class MainActivity : CustomBaseActivity() {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle(resources.getString(R.string.terms_of_use))
 
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 builder.setMessage(Html.fromHtml(applicationContext.getString(R.string.terms_and_conditions), Html.FROM_HTML_MODE_LEGACY))
             } else {
@@ -94,11 +91,13 @@ class MainActivity : CustomBaseActivity() {
             )
         )
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         navView.setOnNavigationItemSelectedListener { item ->
             var status = false
+
+            var appBarTitle = getString(R.string.app_name)
 
             when (item.itemId) {
                 R.id.navigation_home -> {
@@ -109,29 +108,39 @@ class MainActivity : CustomBaseActivity() {
                 R.id.navigation_add -> {
                     navController.navigate(R.id.action_global_navigation_add_edit)
                     status = true
+                    appBarTitle +=  " - ${getString(R.string.title_add_edit_network)}"
                 }
 
                 R.id.navigation_map -> {
                     navController.navigate(R.id.action_global_navigation_map)
+                    appBarTitle +=  " - ${getString(R.string.title_map)}"
                     status = true
                 }
 
                 R.id.navigation_bug -> {
                     navController.navigate(R.id.action_global_navigation_report_bug)
+                    appBarTitle +=  " - ${getString(R.string.title_report_bug)}"
                     status = true
                 }
 
                 R.id.navigation_about -> {
                     navController.navigate(R.id.action_global_navigation_about)
+                    appBarTitle +=  " - ${getString(R.string.about_app)}"
                     status = true
                 }
             }
+
+            supportActionBar?.title = appBarTitle
             status
         }
 
         if (AppInstance.globalConfig.isConnectedToNetwork()) {
             sendBroadcast(Intent("BLWIFI_NETWORK_ONLINE"))
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setHomeButtonEnabled(false)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
 
         initializeAds()
     }
@@ -145,9 +154,7 @@ class MainActivity : CustomBaseActivity() {
         MobileAds.setRequestConfiguration(rcb)
 
         MobileAds.initialize(this) {}
-        val adRequest = AdRequest
-            .Builder()
-            .build()
+        val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
 
@@ -158,17 +165,19 @@ class MainActivity : CustomBaseActivity() {
             navView.selectedItemId = R.id.navigation_home
             navController.backStack.clear()
         } else {
-            if (doubleBackToExitPressedOnce) {
+            /*if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()
                 finish()
                 return
-            }
+            }*/
 
-            Toast.makeText(this, getString(R.string.double_back_to_exit), Toast.LENGTH_SHORT).show()
+            AppInstance.globalConfig.quitApp(this)
+
+            /*Toast.makeText(this, getString(R.string.double_back_to_exit), Toast.LENGTH_SHORT).show()
 
             this.doubleBackToExitPressedOnce = true
 
-            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)*/
         }
     }
 

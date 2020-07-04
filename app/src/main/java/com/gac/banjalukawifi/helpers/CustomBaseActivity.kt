@@ -109,8 +109,7 @@ open class CustomBaseActivity : AppCompatActivity() {
         if (progressDialog.isShowing)
             progressDialog.dismiss()
 
-        unregisterReceiver(broadcastReceiver)
-
+        try { unregisterReceiver(broadcastReceiver) }catch (e : Exception){}
         super.onDestroy()
     }
 
