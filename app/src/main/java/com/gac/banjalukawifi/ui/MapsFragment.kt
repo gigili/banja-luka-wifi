@@ -2,7 +2,6 @@ package com.gac.banjalukawifi.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -32,7 +31,7 @@ class MapsFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         googleMap.isMyLocationEnabled = true
-        val mapMarker = getBitmap(requireContext(), R.drawable.ic_map_marker)
+        val mapMarker = getBitmap()
 
         val networks = ArrayList<Network>()
 
@@ -42,14 +41,18 @@ class MapsFragment : Fragment() {
                 networks.forEach { network ->
                     val loc = LatLng(network.geoLat!!.toDouble(), network.geoLong!!.toDouble())
                     googleMap.addMarker(
-                        MarkerOptions().position(loc).title(network.name).snippet(network.address).icon(BitmapDescriptorFactory.fromBitmap(mapMarker))
+                        MarkerOptions()
+                            .position(loc)
+                            .title(network.toString())
+                            .snippet(network.address)
+                            .icon(BitmapDescriptorFactory.fromBitmap(mapMarker))
                     )
                 }
             }
         }
 
         val target = LatLng(44.769545, 17.189526)
-        val cameraPosition = CameraPosition.Builder().target(target).zoom(12f).build()
+        val cameraPosition = CameraPosition.Builder().target(target).zoom(13f).build()
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
@@ -61,8 +64,8 @@ class MapsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
-    private fun getBitmap(context: Context, drawableId: Int): Bitmap {
-        val drawable: Drawable = ContextCompat.getDrawable(context, drawableId)!!
+    private fun getBitmap(): Bitmap {
+        val drawable: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_marker)!!
         val bitmap: Bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)

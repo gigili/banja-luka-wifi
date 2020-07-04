@@ -115,6 +115,11 @@ class MainActivity : CustomBaseActivity() {
                     navController.navigate(R.id.action_global_navigation_map)
                     status = true
                 }
+
+                R.id.navigation_bug -> {
+                    navController.navigate(R.id.action_global_navigation_report_bug)
+                    status = true
+                }
             }
 
             status

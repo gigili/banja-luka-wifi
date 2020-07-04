@@ -297,13 +297,6 @@ open class GlobalConfig constructor(protected var context: Context) {
         return ""
     }
 
-    fun getDateFromTimeStamp(time: Long, format: String, timeZone: String = "ETC/GMT"): String {
-        val dateFormat = SimpleDateFormat(format, DEFAULT_APP_LOCALE)
-        dateFormat.timeZone = TimeZone.getTimeZone(timeZone)
-        return dateFormat.format(time).toString()
-        //return DateFormat.format(format, cal).toString()
-    }
-
     fun quitApp(activity: AppCompatActivity) {
         AlertDialog.Builder(context)
             .setTitle(context.getString(R.string.confirm_quit_app))
@@ -318,13 +311,13 @@ open class GlobalConfig constructor(protected var context: Context) {
     }
 
     fun getUserID(): String {
-        return ""
+        return UUID.randomUUID().toString()
     }
 
     fun getNetworkSSID(): String {
         var networkName = ""
         try {
-            if (isConnectedToWiFi() == true) {
+            if (isConnectedToWiFi()) {
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
                 val info: WifiInfo = wifiManager.connectionInfo
                 networkName = info.ssid

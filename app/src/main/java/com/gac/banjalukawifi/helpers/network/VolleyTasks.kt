@@ -17,7 +17,7 @@ class VolleyTasks {
             )
         }
 
-        fun submitNetwork(network: Network, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener){
+        fun submitNetwork(network: Network, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener) {
             val params = HashMap<String, String>()
 
             params["networkID"] = network.id.toString()
@@ -31,6 +31,29 @@ class VolleyTasks {
             AppInstance.appInstance.callAPI(
                 Request.Method.POST,
                 "addUpdateNetwork",
+                params,
+                responseListener,
+                errorListener
+            )
+        }
+
+        fun submitBugReport(
+            bugAuthorName: String,
+            bugAuthorEmail: String,
+            bugDescription: String,
+            responseListener: Response.Listener<String>,
+            errorListener: Response.ErrorListener
+        ) {
+            val params = HashMap<String, String>()
+
+            params["name"] = bugAuthorName
+            params["email"] = bugAuthorEmail
+            params["bug"] = bugDescription
+            params["userID"] = AppInstance.globalConfig.getUserID()
+
+            AppInstance.appInstance.callAPI(
+                Request.Method.POST,
+                "submitBug",
                 params,
                 responseListener,
                 errorListener

@@ -35,11 +35,11 @@
     <string name="report_name">Vaše ime *</string>
     <string name="report_error_text">Greška *</string>
     <string name="submit_error">Prijavite  grešku</string>
-    <string name="report_email">Vaš e-mail *</string>
+    <string name="report_email">Vaš e-mail</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="bug_reported_success">Greška uspješno prijavljena</string>
-    <string name="bug_reported_error">Došlo je do greške probajte opet</string>
+    <string name="bug_reported_error">Došlo je do greške prilikom prijavljivanja greške.</string>
     <string name="terms_of_use">Uslovi korištenja</string>
     <string name="accept_terms">Prihvatam uslove</string>
     <string name="app_needs_permissions_to_run">Aplikaciji su potrebna sva prava kako bi radila ispravno</string>
@@ -58,4 +58,5 @@
     <string name="location_required_to_run">Aplikaciji je potreban pristup lokaciji kako bi mogla da radi.</string>
     <string name="no_network_response">-2 | Greška prilikom komunikacije sa serverom</string>
     <string name="notice">Obavještenje</string>
+    <string name="title_report_bug">Prijavite grešku</string>
 </resources>

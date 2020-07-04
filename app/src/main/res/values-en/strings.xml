@@ -34,11 +34,11 @@
     <string name="author_name">Igor Ilić</string>
     <string name="author_email">igor@igorilic.net</string>
     <string name="author_website">https://igorilic.net</string>
-    <string name="report_email">Your e-mail *</string>
+    <string name="report_email">Your e-mail</string>
     <string name="report_error_text">Bug *</string>
     <string name="report_name">Your name *</string>
     <string name="submit_error">"Submit bug "</string>
-    <string name="bug_reported_error">There was an error, please try again</string>
+    <string name="bug_reported_error">There was an error while trying to submit a bug.</string>
     <string name="bug_reported_success">Bug was submitted successfully</string>
     <string name="accept_terms">I accept this terms</string>
     <string name="terms_of_use">Terms of use</string>
@@ -58,4 +58,5 @@
     <string name="location_required_to_run">The application requires location permission to be granted in order to run properly.</string>
     <string name="no_network_response">-2 | There was an error while communicating with the server</string>
     <string name="notice">Notice</string>
+    <string name="title_report_bug">Report a bug</string>
 </resources>

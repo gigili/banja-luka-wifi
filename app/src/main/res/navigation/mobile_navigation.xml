@@ -32,6 +32,13 @@
         tools:layout="@layout/fragment_maps" >
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_bug"
+        android:name="com.gac.banjalukawifi.ui.ReportBugFragment"
+        android:label="@string/title_report_bug"
+        tools:layout="@layout/fragment_report_bug" >
+    </fragment>
+
     <action
         android:id="@+id/action_global_navigation_home"
         app:destination="@id/nav_home" />
@@ -43,5 +50,9 @@
     <action
         android:id="@+id/action_global_navigation_map"
         app:destination="@id/nav_map" />
+
+    <action
+        android:id="@+id/action_global_navigation_report_bug"
+        app:destination="@id/nav_bug" />
 
 </navigation>
