@@ -44,14 +44,12 @@ class ReportBugFragment : Fragment() {
                 ProgressDialogHelper.showProgressDialog(requireActivity())
                 VolleyTasks.submitBugReport(name, email, bug, Response.Listener { response ->
                     try {
-                        AppInstance.globalConfig.logMsg("Response: $response")
                         if (!response.contains("error")) {
                             AppInstance.globalConfig.showMessageDialog(getString(R.string.bug_reported_success), getString(R.string.notice))
                         } else {
                             AppInstance.globalConfig.showMessageDialog(getString(R.string.bug_reported_error))
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
                         AppInstance.globalConfig.showMessageDialog(getString(R.string.bug_reported_error))
                     } finally {
                         ProgressDialogHelper.hideProgressDialog()
