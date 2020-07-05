@@ -73,7 +73,8 @@ open class CustomBaseActivity : AppCompatActivity() {
                             it.optString("address", ""),
                             it.optString("geo_lat", ""),
                             it.optString("geo_long", ""),
-                            it.optString("userID", "")
+                            it.optString("userID", ""),
+                            it.optString("last_update", "")
                         )
                         network.setID(it.optInt("id", 0))
 

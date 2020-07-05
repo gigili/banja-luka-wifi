@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lytNetwork"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/txtNetworkName"
@@ -19,9 +18,50 @@
         android:id="@+id/txtNetworkPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/txtNetworkName"
         android:layout_marginTop="5sp"
-        android:layout_marginBottom="10sp"
         android:textSize="15sp"
         tools:text="@tools:sample/cities" />
 
-</LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/lytActions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:gravity="center|end"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/confirm_network_info_is_valid"
+            android:src="@drawable/ic_confirm_small" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/confirm_network_info_is_outdated"
+            android:src="@drawable/ic_cancel_small" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtLastUpdate"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtNetworkPassword"
+        android:text="@string/lbl_last_update"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1sp"
+        android:layout_below="@id/txtLastUpdate"
+        android:background="#ddd"
+        tools:ignore="SmallSp" />
+
+</RelativeLayout>

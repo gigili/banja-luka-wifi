@@ -59,4 +59,7 @@
     <string name="no_network_response">-2 | Greška prilikom komunikacije sa serverom</string>
     <string name="notice">Obavještenje</string>
     <string name="title_report_bug">Prijavite grešku</string>
+    <string name="confirm_network_info_is_valid">Potvrdite da su podaci za mrežu i dalje ispravni</string>
+    <string name="confirm_network_info_is_outdated">Prijavite da su podaci neispravni</string>
+    <string name="lbl_last_update">Zadnja promjena: %1$s</string>
 </resources>

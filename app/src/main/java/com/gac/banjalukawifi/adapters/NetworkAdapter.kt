@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.db.entities.Network
+import com.gac.banjalukawifi.helpers.AppInstance
+import java.util.*
 
 
 class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Adapter<NetworkAdapter.ViewHolder>() {
@@ -14,6 +16,7 @@ class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Ad
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtNetworkName: TextView = view.findViewById(R.id.txtNetworkName)
         val txtNetworkPassword: TextView = view.findViewById(R.id.txtNetworkPassword)
+        val txtLastUpdate: TextView = view.findViewById(R.id.txtLastUpdate)
     }
 
     override fun getItemCount(): Int {
@@ -36,6 +39,13 @@ class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.txtNetworkName.text = getItem(i).name
         holder.txtNetworkPassword.text = getItem(i).password
+        holder.txtLastUpdate.text = String.format(
+            AppInstance.appContext!!.getString(R.string.lbl_last_update),
+            AppInstance.globalConfig.formatDate(
+                getItem(i).lastUpdate ?: Calendar.getInstance().time.toString(),
+                "dd.MM.yyyy HH:mm:ss"
+            )
+        )
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
@@ -45,11 +55,6 @@ class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Ad
 
     fun clear() {
         networks.clear()
-    }
-
-    fun add(network: Network): Boolean {
-        networks.add(network)
-        return true
     }
 
     fun addAll(ns: ArrayList<Network>): Boolean {

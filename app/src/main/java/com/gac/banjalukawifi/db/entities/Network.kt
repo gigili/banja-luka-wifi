@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "networks")
 class Network(
     var name: String = "", var password: String = "", var address: String? = null,
-    var geoLat: String? = null, var geoLong: String? = null, var userID: String? = null
+    var geoLat: String? = null, var geoLong: String? = null, var userID: String? = null, var lastUpdate : String? = null
 ) {
 
     @PrimaryKey(autoGenerate = true)

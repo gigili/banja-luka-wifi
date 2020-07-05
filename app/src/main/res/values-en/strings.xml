@@ -59,4 +59,7 @@
     <string name="no_network_response">-2 | There was an error while communicating with the server</string>
     <string name="notice">Notice</string>
     <string name="title_report_bug">Report a bug</string>
+    <string name="confirm_network_info_is_valid">Confirm that network information is still valid</string>
+    <string name="confirm_network_info_is_outdated">Report that network information is outdated</string>
+    <string name="lbl_last_update">Last update: %1$s</string>
 </resources>
