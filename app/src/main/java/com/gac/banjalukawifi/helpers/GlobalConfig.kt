@@ -52,7 +52,7 @@ open class GlobalConfig constructor(protected var context: Context) {
         @Suppress("LocalVariableName")
         val PREFS_TAG = "MyPrivateGlobalPrefs${context.applicationContext.packageName}"
 
-        this.baseUrl = "https://banjalukawifi.igorilic.net/index.php/api/"
+        this.baseUrl = context.getString(R.string.API_BASE_URL)
 
         preferences = context.getSharedPreferences(PREFS_TAG, 0)
 

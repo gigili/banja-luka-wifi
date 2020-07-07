@@ -6,7 +6,6 @@
     <string name="title_add_edit_network">Dodaj / Uredi mrežu</string>
     <string name="please_wait">Molimo sačekajte</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_networks">Pretražite mreže</string>
     <string name="prompt_network_name">Ime mreže *</string>
     <string name="prompt_network_address">Adresa</string>

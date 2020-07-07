@@ -43,7 +43,7 @@ class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Ad
             AppInstance.appContext!!.getString(R.string.lbl_last_update),
             AppInstance.globalConfig.formatDate(
                 getItem(i).lastUpdate ?: Calendar.getInstance().time.toString(),
-                "dd.MM.yyyy"
+                "dd.MM.yyyy" //TODO("Consider adding this to the settings as well, so users chan chose their format")
             )
         )
     }
