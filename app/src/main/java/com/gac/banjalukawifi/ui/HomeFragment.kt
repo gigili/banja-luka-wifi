@@ -110,11 +110,11 @@ class HomeFragment : Fragment() {
 
     private fun copyNetworkPasswordToClipBoard(network: Network) {
         val clipboard: ClipboardManager? = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
-        if(clipboard != null) {
+        if (clipboard != null) {
             val clip = ClipData.newPlainText(network.name, network.password)
             clipboard.setPrimaryClip(clip)
             AppInstance.globalConfig.notifyMSG(getString(R.string.password_copied_success))
-        }else{
+        } else {
             AppInstance.globalConfig.notifyMSG(getString(R.string.password_copied_error))
         }
     }
