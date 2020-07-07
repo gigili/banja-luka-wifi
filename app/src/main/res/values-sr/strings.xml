@@ -61,4 +61,5 @@
     <string name="confirm_network_info_is_valid">Potvrdite da su podaci za mrežu i dalje ispravni</string>
     <string name="confirm_network_info_is_outdated">Prijavite da su podaci neispravni</string>
     <string name="lbl_last_update">Zadnja promjena: %1$s</string>
+    <string name="password_copied_error">Nije moguće kopirati šifru</string>
 </resources>

@@ -11,7 +11,10 @@ import com.gac.banjalukawifi.helpers.AppInstance
 import java.util.*
 
 
-class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Adapter<NetworkAdapter.ViewHolder>() {
+class NetworkAdapter(
+    private val networks: ArrayList<Network>,
+    private val listener: (Network) -> Unit
+) : RecyclerView.Adapter<NetworkAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtNetworkName: TextView = view.findViewById(R.id.txtNetworkName)
@@ -46,6 +49,10 @@ class NetworkAdapter(private val networks: ArrayList<Network>) : RecyclerView.Ad
                 "dd.MM.yyyy" //TODO("Consider adding this to the settings as well, so users chan chose their format")
             )
         )
+
+        holder.itemView.setOnClickListener {
+            listener(getItem(i))
+        }
     }
 
     override fun onViewRecycled(holder: ViewHolder) {

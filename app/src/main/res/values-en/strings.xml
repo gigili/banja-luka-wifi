@@ -61,4 +61,5 @@
     <string name="confirm_network_info_is_valid">Confirm that network information is still valid</string>
     <string name="confirm_network_info_is_outdated">Report that network information is outdated</string>
     <string name="lbl_last_update">Last update: %1$s</string>
+    <string name="password_copied_error">Unable to copy networks password</string>
 </resources>

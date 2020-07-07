@@ -1,9 +1,7 @@
 package com.gac.banjalukawifi.ui
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Editable
@@ -42,10 +40,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gl = AppInstance.globalConfig
-
         networks = ArrayList()
-        networkAdapter = NetworkAdapter(networks)
+        networkAdapter = NetworkAdapter(networks) { network ->
+            copyNetworkPasswordToClipBoard(network)
+        }
         appDB = AppDatabase.getDatabase(requireContext().applicationContext)
         networkDao = appDB.networkDao()
 
@@ -57,8 +55,6 @@ class HomeFragment : Fragment() {
         lstNetworks = view.findViewById(R.id.lstNetwork)
         lstNetworks.adapter = networkAdapter
         lstNetworks.layoutManager = LinearLayoutManager(requireContext())
-
-        loadNetworks()
 
         try {
             edtSearch.addTextChangedListener(object : TextWatcher {
@@ -105,7 +101,21 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        try { requireContext().unregisterReceiver(broadcastReceiver) }catch (e : Exception){}
+        try {
+            requireContext().unregisterReceiver(broadcastReceiver)
+        } catch (e: Exception) {
+        }
         super.onDestroy()
+    }
+
+    private fun copyNetworkPasswordToClipBoard(network: Network) {
+        val clipboard: ClipboardManager? = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+        if(clipboard != null) {
+            val clip = ClipData.newPlainText(network.name, network.password)
+            clipboard.setPrimaryClip(clip)
+            AppInstance.globalConfig.notifyMSG(getString(R.string.password_copied_success))
+        }else{
+            AppInstance.globalConfig.notifyMSG(getString(R.string.password_copied_error))
+        }
     }
 }
