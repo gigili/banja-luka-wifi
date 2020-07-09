@@ -56,6 +56,8 @@ class HomeFragment : Fragment() {
         lstNetworks.adapter = networkAdapter
         lstNetworks.layoutManager = LinearLayoutManager(requireContext())
 
+
+        loadNetworks()
         try {
             edtSearch.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {}

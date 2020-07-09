@@ -14,3 +14,4 @@
 .cxx
 *secrets.xml
 app/google-services.json
+*.jks

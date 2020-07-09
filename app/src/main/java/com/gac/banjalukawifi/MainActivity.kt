@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.gac.banjalukawifi.helpers.AppInstance
 import com.gac.banjalukawifi.helpers.CustomBaseActivity
@@ -80,18 +79,6 @@ class MainActivity : CustomBaseActivity() {
 
         navView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_add,
-                R.id.navigation_map,
-                R.id.navigation_bug,
-                R.id.navigation_about
-            )
-        )
-
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         navView.setOnNavigationItemSelectedListener { item ->
@@ -108,24 +95,24 @@ class MainActivity : CustomBaseActivity() {
                 R.id.navigation_add -> {
                     navController.navigate(R.id.action_global_navigation_add_edit)
                     status = true
-                    appBarTitle +=  " - ${getString(R.string.title_add_edit_network)}"
+                    appBarTitle += " - ${getString(R.string.title_add_edit_network)}"
                 }
 
                 R.id.navigation_map -> {
                     navController.navigate(R.id.action_global_navigation_map)
-                    appBarTitle +=  " - ${getString(R.string.title_map)}"
+                    appBarTitle += " - ${getString(R.string.title_map)}"
                     status = true
                 }
 
                 R.id.navigation_bug -> {
                     navController.navigate(R.id.action_global_navigation_report_bug)
-                    appBarTitle +=  " - ${getString(R.string.title_report_bug)}"
+                    appBarTitle += " - ${getString(R.string.title_report_bug)}"
                     status = true
                 }
 
                 R.id.navigation_about -> {
                     navController.navigate(R.id.action_global_navigation_about)
-                    appBarTitle +=  " - ${getString(R.string.about_app)}"
+                    appBarTitle += " - ${getString(R.string.about_app)}"
                     status = true
                 }
             }
@@ -165,19 +152,7 @@ class MainActivity : CustomBaseActivity() {
             navView.selectedItemId = R.id.navigation_home
             navController.backStack.clear()
         } else {
-            /*if (doubleBackToExitPressedOnce) {
-                super.onBackPressed()
-                finish()
-                return
-            }*/
-
             AppInstance.globalConfig.quitApp(this)
-
-            /*Toast.makeText(this, getString(R.string.double_back_to_exit), Toast.LENGTH_SHORT).show()
-
-            this.doubleBackToExitPressedOnce = true
-
-            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)*/
         }
     }
 

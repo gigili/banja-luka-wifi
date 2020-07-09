@@ -19,10 +19,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            delete fileTree(dir:'src/main/res/values', include: '**.txt')
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "testAdDeviceID", "\"\"")
-            buildConfigField("Integer", "networkUpdateInterval", "3600000")
+            buildConfigField("Integer", "networkUpdateInterval", "300000") //5 min interval
         }
 
         debug {
@@ -32,12 +34,24 @@ android {
 
         packagingOptions {
             exclude 'META-INF/atomicfu.kotlin_module'
+            exclude 'META-INF/DEPENDENCIES.txt'
+            exclude 'META-INF/LICENSE.txt'
+            exclude 'META-INF/NOTICE.txt'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/notice.txt'
+            exclude 'META-INF/license.txt'
+            exclude 'META-INF/dependencies.txt'
+            exclude 'META-INF/LGPL2.1'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
