@@ -34,7 +34,7 @@ If you have any suggestions, comments or feedback feel free to reach to me or op
   
 I've also published an article on [dev.to](https://dev.to) website explaining why I created this app and why have I decided to make it public.    
 
-The article can be found here: [Full article on the dev.to website](https://dev.to/gac/i-open-sourced-my-first-android-application-40n9)
+The article can be found here: [Full article on the dev.to website](https://dev.to/gac/i-open-sourced-my-first-android-application-1nim)
 
 # Build notes
 
