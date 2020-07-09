@@ -11,7 +11,7 @@ android {
         applicationId "com.gac.banjalukawifi"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 12
+        versionCode 13
         versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -20,8 +20,8 @@ android {
     buildTypes {
         release {
             delete fileTree(dir:'src/main/res/values', include: '**.txt')
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "testAdDeviceID", "\"\"")
             buildConfigField("Integer", "networkUpdateInterval", "300000") //5 min interval
