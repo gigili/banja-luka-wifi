@@ -6,14 +6,12 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.android.volley.Response
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.db.AppDatabase
 import com.gac.banjalukawifi.db.entities.Network
@@ -55,7 +53,7 @@ class AddEditNetworkFragment : Fragment() {
 
         globalConfig = AppInstance.globalConfig
 
-        if(!globalConfig.isConnectedToWiFi()) {
+        if (!globalConfig.isConnectedToWiFi()) {
             globalConfig.showMessageDialog(getString(R.string.wifi_internet_required))
             btnSave.isEnabled = false
             return
@@ -70,7 +68,7 @@ class AddEditNetworkFragment : Fragment() {
 
         edtNetworkName.isEnabled = false
 
-        AsyncTask.execute {
+        Thread {
             if (networkSSID.isNotBlank()) {
                 network = networkDao.findByName("%${edtNetworkName.text}%").firstOrNull()
 
@@ -122,8 +120,8 @@ class AddEditNetworkFragment : Fragment() {
 
                 ProgressDialogHelper.showProgressDialog(requireActivity())
 
-                VolleyTasks.submitNetwork(network!!, Response.Listener { response ->
-                    try{
+                VolleyTasks.submitNetwork(network!!, { response ->
+                    try {
                         globalConfig.logMsg("NETWORK RESPONSE: $response")
                         if (!response.contains("error")) {
                             globalConfig.showMessageDialog(getString(R.string.network_saved_success), getString(R.string.notice))
@@ -132,12 +130,12 @@ class AddEditNetworkFragment : Fragment() {
                             globalConfig.showMessageDialog(getString(R.string.network_saved_error))
                             btnSave.isEnabled = true
                         }
-                    }catch (e : Exception){
+                    } catch (e: Exception) {
                         globalConfig.showMessageDialog(getString(R.string.network_saved_error))
-                    }finally {
+                    } finally {
                         ProgressDialogHelper.hideProgressDialog()
                     }
-                }, Response.ErrorListener { error ->
+                }, { error ->
                     globalConfig.handleExceptionErrors(error)
                     ProgressDialogHelper.hideProgressDialog()
                 })
@@ -156,14 +154,22 @@ class AddEditNetworkFragment : Fragment() {
                     mLocationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null -> {
                         provider = LocationManager.GPS_PROVIDER
                         loc = mLocationManager!!.getLastKnownLocation(provider)
-                        geoLat = loc.latitude
-                        geoLong = loc.longitude
+                        if (loc != null) {
+                            geoLat = loc.latitude
+                        }
+                        if (loc != null) {
+                            geoLong = loc.longitude
+                        }
                     }
                     mLocationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null -> {
                         provider = LocationManager.NETWORK_PROVIDER
                         loc = mLocationManager!!.getLastKnownLocation(provider)
-                        geoLat = loc.latitude
-                        geoLong = loc.longitude
+                        if (loc != null) {
+                            geoLat = loc.latitude
+                        }
+                        if (loc != null) {
+                            geoLong = loc.longitude
+                        }
                     }
                     else -> mLocationManager!!.requestLocationUpdates(provider, 10.toLong(), 50.toFloat(), mLocationListener)
                 }
