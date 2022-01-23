@@ -35,25 +35,51 @@ class MainActivity : CustomBaseActivity() {
         setContentView(R.layout.activity_main)
 
         AppInstance.globalConfig = GlobalConfig(this)
+        val missingPermissions = (
+                ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.INTERNET
+                ) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_NETWORK_STATE
+                        ) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_WIFI_STATE
+                        ) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED
+                )
 
-        if (
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissionGranted = permissionGranted && ActivityCompat.checkSelfPermission(
                 this,
-                arrayOf(
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.ACCESS_WIFI_STATE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ),
-                153
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        }*/
+
+        if (missingPermissions) {
+            val permissionsList = arrayOf(
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
             )
+
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                permissionsList =
+                    permissionsList.plusElement(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            }*/
+
+            ActivityCompat.requestPermissions(this, permissionsList, 153)
         }
 
         if (AppInstance.globalConfig.getBooleanPref("first_run")) {
@@ -61,7 +87,12 @@ class MainActivity : CustomBaseActivity() {
             builder.setTitle(resources.getString(R.string.terms_of_use))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                builder.setMessage(Html.fromHtml(applicationContext.getString(R.string.terms_and_conditions), Html.FROM_HTML_MODE_LEGACY))
+                builder.setMessage(
+                    Html.fromHtml(
+                        applicationContext.getString(R.string.terms_and_conditions),
+                        Html.FROM_HTML_MODE_LEGACY
+                    )
+                )
             } else {
                 builder.setMessage(Html.fromHtml(applicationContext.getString(R.string.terms_and_conditions)))
             }
@@ -158,16 +189,25 @@ class MainActivity : CustomBaseActivity() {
         requestCode: Int, permissions:
         Array<out String>, grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             153 -> {
                 if (grantResults.isEmpty()) {
-                    Toast.makeText(this, getString(R.string.app_needs_permissions_to_run), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        getString(R.string.app_needs_permissions_to_run),
+                        Toast.LENGTH_LONG
+                    ).show()
                     return
                 }
 
                 for (grant in grantResults) {
                     if (grant != PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, getString(R.string.app_needs_permissions_to_run), Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this,
+                            getString(R.string.app_needs_permissions_to_run),
+                            Toast.LENGTH_LONG
+                        ).show()
                         return
                     }
                 }

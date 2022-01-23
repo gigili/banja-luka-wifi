@@ -14,6 +14,7 @@ import com.gac.banjalukawifi.db.AppDatabase
 import com.gac.banjalukawifi.db.entities.Network
 import com.gac.banjalukawifi.helpers.network.VolleyTasks
 import org.json.JSONArray
+import java.util.concurrent.Executors
 
 open class CustomBaseActivity : AppCompatActivity() {
 
@@ -75,7 +76,7 @@ open class CustomBaseActivity : AppCompatActivity() {
                         )
                         network.setID(it.optInt("id", 0))
 
-                        Thread {
+                        Executors.newSingleThreadExecutor().execute {
                             try {
                                 AppDatabase.getDatabase(this).networkDao().insert(network)
                             } catch (constrainError: SQLiteConstraintException) {

@@ -2,7 +2,6 @@ package com.gac.banjalukawifi.ui
 
 import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,6 +18,9 @@ import com.gac.banjalukawifi.db.daos.NetworkDao
 import com.gac.banjalukawifi.db.entities.Network
 import com.gac.banjalukawifi.helpers.AppInstance
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.concurrent.Executors
+import java.util.logging.Level
+import java.util.logging.Logger
 
 
 class HomeFragment : Fragment() {
@@ -64,7 +66,7 @@ class HomeFragment : Fragment() {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     networkAdapter.clear()
-                    AsyncTask.execute {
+                    Executors.newSingleThreadExecutor().execute {
                         val term = if (p0.toString().isNotEmpty()) "%${p0.toString()}%" else "%%"
                         networkAdapter.addAll(networkDao.findByName(term) as ArrayList<Network>)
 
@@ -90,7 +92,7 @@ class HomeFragment : Fragment() {
 
     private fun loadNetworks() {
         networkAdapter.clear()
-        AsyncTask.execute {
+        Executors.newSingleThreadExecutor().execute {
             try {
                 networkAdapter.addAll(networkDao.getAll() as ArrayList<Network>)
                 lstNetworks.post {
@@ -98,6 +100,9 @@ class HomeFragment : Fragment() {
                     networkAdapter.notifyDataSetChanged()
                 }
             } catch (e: java.lang.Exception) {
+                val log = Logger.getAnonymousLogger()
+                val logString = "BLWIFI_DBG | ${e.message}"
+                log.log(Level.INFO, logString)
             }
         }
     }
@@ -111,7 +116,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun copyNetworkPasswordToClipBoard(network: Network) {
-        val clipboard: ClipboardManager? = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+        val clipboard: ClipboardManager? =
+            requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
         if (clipboard != null) {
             val clip = ClipData.newPlainText(network.name, network.password)
             clipboard.setPrimaryClip(clip)

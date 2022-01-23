@@ -46,7 +46,8 @@ class NetworkAdapter(
             AppInstance.appContext!!.getString(R.string.lbl_last_update),
             AppInstance.globalConfig.formatDate(
                 getItem(i).lastUpdate ?: Calendar.getInstance().time.toString(),
-                "dd.MM.yyyy" //TODO("Consider adding this to the settings as well, so users chan chose their format")
+                "dd.MM.yyyy"
+                //TODO("Consider adding this to the settings as well, so users can chose their format")
             )
         )
 

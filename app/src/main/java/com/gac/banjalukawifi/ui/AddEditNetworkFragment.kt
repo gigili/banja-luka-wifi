@@ -20,6 +20,7 @@ import com.gac.banjalukawifi.helpers.GlobalConfig
 import com.gac.banjalukawifi.helpers.ProgressDialogHelper
 import com.gac.banjalukawifi.helpers.network.VolleyTasks
 import kotlinx.android.synthetic.main.fragment_add_edit_network.*
+import java.util.concurrent.Executors
 
 class AddEditNetworkFragment : Fragment() {
 
@@ -44,7 +45,11 @@ class AddEditNetworkFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_edit_network, container, false)
     }
 
@@ -68,7 +73,7 @@ class AddEditNetworkFragment : Fragment() {
 
         edtNetworkName.isEnabled = false
 
-        Thread {
+        Executors.newSingleThreadExecutor().execute {
             if (networkSSID.isNotBlank()) {
                 network = networkDao.findByName("%${edtNetworkName.text}%").firstOrNull()
 
@@ -124,7 +129,10 @@ class AddEditNetworkFragment : Fragment() {
                     try {
                         globalConfig.logMsg("NETWORK RESPONSE: $response")
                         if (!response.contains("error")) {
-                            globalConfig.showMessageDialog(getString(R.string.network_saved_success), getString(R.string.notice))
+                            globalConfig.showMessageDialog(
+                                getString(R.string.network_saved_success),
+                                getString(R.string.notice)
+                            )
                             btnSave.isEnabled = false
                         } else {
                             globalConfig.showMessageDialog(getString(R.string.network_saved_error))
@@ -147,8 +155,14 @@ class AddEditNetworkFragment : Fragment() {
         try {
             val loc: Location?
             if (
-                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 when {
                     mLocationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null -> {
@@ -171,7 +185,12 @@ class AddEditNetworkFragment : Fragment() {
                             geoLong = loc.longitude
                         }
                     }
-                    else -> mLocationManager!!.requestLocationUpdates(provider, 10.toLong(), 50.toFloat(), mLocationListener)
+                    else -> mLocationManager!!.requestLocationUpdates(
+                        provider,
+                        10.toLong(),
+                        50.toFloat(),
+                        mLocationListener
+                    )
                 }
             } else {
                 globalConfig.notifyMSG(getString(R.string.location_required_to_run))
@@ -202,4 +221,32 @@ class AddEditNetworkFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mLocationManager != null) {
+            mLocationManager!!.removeUpdates(mLocationListener)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            if (mLocationManager != null) {
+                mLocationManager!!.requestLocationUpdates(
+                    provider,
+                    10.toLong(),
+                    50.toFloat(),
+                    mLocationListener
+                )
+            }
+        }
+    }
 }
