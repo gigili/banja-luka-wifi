@@ -29,7 +29,7 @@ android {
 
         debug {
             buildConfigField("String", "testAdDeviceID", "\"CA58191B56AF12D6E6232AA11D7E8A40\"")
-            buildConfigField("Integer", "networkUpdateInterval", "60000")
+            buildConfigField("Integer", "networkUpdateInterval", "1500")
         }
 
         packagingOptions {
