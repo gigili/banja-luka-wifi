@@ -40,7 +40,6 @@ class MainActivity : CustomBaseActivity() {
             ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ||
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -50,7 +49,6 @@ class MainActivity : CustomBaseActivity() {
                     Manifest.permission.INTERNET,
                     Manifest.permission.ACCESS_NETWORK_STATE,
                     Manifest.permission.ACCESS_WIFI_STATE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ),
@@ -152,7 +150,7 @@ class MainActivity : CustomBaseActivity() {
             navView.selectedItemId = R.id.navigation_home
             navController.backStack.clear()
         } else {
-            AppInstance.globalConfig.quitApp(this)
+            AppInstance.globalConfig.quitApp()
         }
     }
 

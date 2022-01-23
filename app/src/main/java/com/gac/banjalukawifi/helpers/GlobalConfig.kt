@@ -12,14 +12,11 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.TimeoutError
 import com.android.volley.VolleyError
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.helpers.network.CustomVolleyError
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,16 +34,12 @@ import java.util.logging.Logger
 )*/
 open class GlobalConfig constructor(protected var context: Context) {
 
-
     //Private & protected vars
     private val preferences: SharedPreferences
     private lateinit var preferencesEditor: SharedPreferences.Editor
     private val logTag: String = "BLWIFI_TAG"
     private var perPage = 20
     private var baseUrl: String
-
-    //Public vars?
-    var isConnected: Boolean = false
 
     init {
         @Suppress("LocalVariableName")
@@ -195,8 +188,7 @@ open class GlobalConfig constructor(protected var context: Context) {
                         logMsg("Network headers: ${ex.headers}", logTag, logLevel)
                     } else if (
                         ex is VolleyError && ex.networkResponse != null &&
-                        ex.networkResponse.allHeaders != null &&
-                        ex.networkResponse.allHeaders.isNotEmpty()
+                        !ex.networkResponse.allHeaders.isNullOrEmpty()
                     ) {
                         val hd = ex.networkResponse.allHeaders
                         logMsg("Network headers: $hd", logTag, logLevel)
@@ -230,7 +222,7 @@ open class GlobalConfig constructor(protected var context: Context) {
         }
     }
 
-    fun getRequestMethod(method: Int?): String {
+    private fun getRequestMethod(method: Int?): String {
         var requestMethod = ""
         if (method != null) {
             requestMethod = " | " + when (method) {
@@ -263,17 +255,17 @@ open class GlobalConfig constructor(protected var context: Context) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
     }
 
-    fun isGooglePlayServicesAvailable(): Boolean {
+    /*fun isGooglePlayServicesAvailable(): Boolean {
         val googleApiAvailability = GoogleApiAvailability.getInstance()
         val status = googleApiAvailability.isGooglePlayServicesAvailable(context)
         if (status != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(context as Activity, status, 2404).show()
+                googleApiAvailability.getErrorDialog(context as Activity, status, 2404)?.show()
             }
             return false
         }
         return true
-    }
+    }*/
 
     fun formatDate(
         lastUpdate: String,
@@ -297,7 +289,7 @@ open class GlobalConfig constructor(protected var context: Context) {
         return ""
     }
 
-    fun quitApp(activity: AppCompatActivity) {
+    fun quitApp() {
         AlertDialog.Builder(context)
             .setTitle(context.getString(R.string.confirm_quit_app))
             .setMessage(context.getString(R.string.confirm_quit_app_message))
@@ -320,14 +312,15 @@ open class GlobalConfig constructor(protected var context: Context) {
             if (isConnectedToWiFi()) {
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
                 val info: WifiInfo = wifiManager.connectionInfo
+
                 networkName = info.ssid
                 networkName = networkName.replace("\"", "")
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
-        } finally {
-            return networkName
         }
+
+        return networkName
     }
 
     companion object {
