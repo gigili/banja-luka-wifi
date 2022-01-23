@@ -6,16 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.database.sqlite.SQLiteConstraintException
-import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Response
 import com.gac.banjalukawifi.BuildConfig
 import com.gac.banjalukawifi.R
 import com.gac.banjalukawifi.db.AppDatabase
 import com.gac.banjalukawifi.db.entities.Network
 import com.gac.banjalukawifi.helpers.network.VolleyTasks
-import dmax.dialog.SpotsDialog
 import org.json.JSONArray
 
 open class CustomBaseActivity : AppCompatActivity() {
@@ -25,12 +22,12 @@ open class CustomBaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        progressDialog = SpotsDialog
-            .Builder()
-            .setContext(this)
+        progressDialog = AlertDialog
+            .Builder(this)
             .setMessage(getString(R.string.networks_updating))
+            .setView(R.layout.loading)
             .setCancelable(false)
-            .build()
+            .create()
 
         registerReceiver(
             broadcastReceiver,
@@ -61,7 +58,7 @@ open class CustomBaseActivity : AppCompatActivity() {
             progressDialog.show()
         }
 
-        VolleyTasks.getNetworks(Response.Listener { response ->
+        VolleyTasks.getNetworks({ response ->
             try {
                 val res = JSONArray(response)
                 (0 until res.length())
@@ -78,7 +75,7 @@ open class CustomBaseActivity : AppCompatActivity() {
                         )
                         network.setID(it.optInt("id", 0))
 
-                        AsyncTask.execute {
+                        Thread {
                             try {
                                 AppDatabase.getDatabase(this).networkDao().insert(network)
                             } catch (constrainError: SQLiteConstraintException) {
@@ -98,7 +95,7 @@ open class CustomBaseActivity : AppCompatActivity() {
                     progressDialog.dismiss()
                 }
             }
-        }, Response.ErrorListener { error ->
+        }, { error ->
             AppInstance.globalConfig.handleExceptionErrors(error)
             if (progressDialog.isShowing) {
                 progressDialog.dismiss()
@@ -110,7 +107,10 @@ open class CustomBaseActivity : AppCompatActivity() {
         if (progressDialog.isShowing)
             progressDialog.dismiss()
 
-        try { unregisterReceiver(broadcastReceiver) }catch (e : Exception){}
+        try {
+            unregisterReceiver(broadcastReceiver)
+        } catch (e: Exception) {
+        }
         super.onDestroy()
     }
 

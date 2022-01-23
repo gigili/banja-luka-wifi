@@ -3,7 +3,6 @@ package com.gac.banjalukawifi.helpers
 import android.app.Activity
 import android.app.AlertDialog
 import com.gac.banjalukawifi.R
-import dmax.dialog.SpotsDialog
 
 class ProgressDialogHelper {
 
@@ -20,10 +19,11 @@ class ProgressDialogHelper {
                 hideProgressDialog()
             }
 
-            progressDialog = SpotsDialog
-                .Builder()
-                .setContext(activity)
-                .setCancelable(cancelable).build()
+            progressDialog = AlertDialog
+                .Builder(activity)
+                .setView(R.layout.loading)
+                .setCancelable(cancelable)
+                .create()
 
             if (message_res != null) {
                 progressDialog!!.setMessage(activity.getString(message_res))
