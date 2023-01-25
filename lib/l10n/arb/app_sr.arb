@@ -1,0 +1,123 @@
+{
+    "@@locale": "sr",
+    "appBarTitle": "Banja Luka WiFi",
+    "@appBarTitle": {
+        "description": "Text shown in the AppBar"
+    },
+    "lblAddEditNetwork": "Dodaj / izmijeni mrežu",
+    "@lblAddEditNetwork": {
+        "description": "Bottom navigation bar label"
+    },
+    "lblNetworksMap": "WiFi Mapa",
+    "@lblNetworksMap": {
+        "description": "Bottom navigation bar label"
+    },
+    "lblAppInfo": "O aplikaciji",
+    "@lblAppInfo": {
+        "description": "Bottom navigation bar label"
+    },
+    "lblSearchNetworks": "Pretraži mreže",
+    "@lblSearchNetworks": {
+        "description": "Floating action button tooltip label"
+    },
+    "errorNoLocationPermissions": "Nedostaju prava za lokacije, neke opciju možda neće raditi",
+    "@errorNoLocationPermissions": {
+        "description": "Error message shown when the location permissions are missing"
+    },
+    "lblTOS": "Uslovi korištenja",
+    "@lblTOS": {
+        "description": "Alert dialog title label for TOS"
+    },
+    "tos": "<p>1. Banja Luka WiFi je android aplikacija koja sadrži šifre wifi mreža unutar grada Banja Luka. <p>2. Aplikacija je namjenjena samo za navedeni grad.</p> <p>3. Autor aplikacije ne snosi nikakvu odgovornost za mreže koje korisnici dodaju u aplikaciju. <p>4. Sve mreže koje su korisnici dodali su dodane na njihovu odgovornost i oni potvrđuju da dodana mreža ne pripada poslovnim i/ili privatnim stambenim objektima.</p> <p>5. Ako neko želi da se njegova mreža ukloni može kontaktirati administratora putem email adrese <a href=\\'mailto:github@igorilic.net\\'>github@igorilic.net</a>.</p> <p>6. Nakon potvrde da mreža stvarno pripada toj osobi, mreža će biti uklonjena.</p> <p>7. Uklanjanje mreže se može desiti prije izlaska nove verzije aplikacije.</p> <p>8. Podaci koje aplikacija uzima od korisnika su geografska lokacija.</p> <p>9. Aplikacija je besplatna, ali može da sadrži oglase u sebi.</p> <p>10. Autor aplikacije može da promijeni uslove iz bilo kog razloga bez prethodnog ili naknadnog obavještenja korisnika.</p>",
+    "@tos": {
+        "description": "Applications TOS text"
+    },
+    "lblAppName": "Naziv aplikacije",
+    "@lblAppName": {
+        "description": "Label for application name shown on info page"
+    },
+    "lblDeveloper": "Razvio",
+    "@lblDeveloper": {
+        "description": "Label for developer name shown on info page"
+    },
+    "lblContact": "Kontakt informacije",
+    "@lblContact": {
+        "description": "Label for contact info shown on info page"
+    },
+    "lblWebsite": "Web stranica",
+    "@lblWebsite": {
+        "description": "Label for website shown on info page"
+    },
+    "lblVersion": "Verzija",
+    "@lblVersion": {
+        "description": "Label for application version shown on info page"
+    },
+    "lblSourceCode": "Izvorni kod",
+    "@lblSourceCode": {
+        "description": "Label for source code link shown on info page"
+    },
+    "lblOK": "OK",
+    "@lblOK": {
+        "description": "Label ok"
+    },
+    "lblNetworkName": "Naziv mreže:",
+    "@lblNetworkName": {
+        "description": "Input label for network name on the form"
+    },
+    "lblNetworkPassword": "Šifra:",
+    "@lblNetworkPassword": {
+        "description": "Input label for network password on the form"
+    },
+    "lblNetworkAddress": "Adresa:",
+    "@lblNetworkAddress": {
+        "description": "Input label for network address on the form"
+    },
+    "save": "Sačuvaj",
+    "@save": {
+        "description": "Label for the save button the network form"
+    },
+    "errorNetworkNameEmpty": "Ime mreže ne može da bude prazno",
+    "@errorNetworkNameEmpty": {
+        "description": "Error message shown when the network name is empty on form submit"
+    },
+    "errorNetworkPasswordEmpty": "Šifra ne može da bude prazna",
+    "@errorNetworkPasswordEmpty": {
+        "description": "Error message shown when the network password is empty on form submit"
+    },
+    "errorNoLocationAvailable": "Nije moguće odrediti lokaciju uređaja",
+    "@errorNoLocationAvailable": {
+        "description": "Error message shown when the location is missing on form submit"
+    },
+    "networkSubmitted": "Mreža dodana",
+    "@networkSubmitted": {
+        "description": "Title shown on the alert dialog after the network was successfully submitted"
+    },
+    "networkAwaitingApproval": "Mreža je uspješno dodana i čeka odobrenja od strane administratora.",
+    "@networkAwaitingApproval": {
+        "description": "Content shown on the alert dialog after the network was successfully submitted"
+    },
+    "lblNetworks": "Mreže",
+    "@lblNetworks": {
+        "description": "Label text shown on the bottom navigation bar icon tooltip"
+    },
+    "msgPasswordCopiedToClipboard": "Šifra kopirana",
+    "@msgPasswordCopiedToClipboard": {
+        "description": "Message shown in a snackbar when the users click on the network in the list"
+    },
+    "lblNetworkFormDisclaimer": "Nije poželjno da se unose šifre od privatnih mreža kao što su kuće ili kancelarije.",
+    "@lblNetworkFormDisclaimer": {
+        "description": "Disclaimer text shown on the network form, above the submit/save button"
+    },
+    "lblNetworkFormRequiredFieldsNote": "Polja označena sa * su obavezna",
+    "@lblNetworkFormRequiredFieldsNote": {
+        "description": "Notice text shown on the network form, below the input fields"
+    },
+    "actionSearch": "Pretraga",
+    "@actionSearch": {
+        "description": "Text shown on the dialogs action"
+    },
+    "actionClear": "Očisti pretragu",
+    "@actionClear": {
+        "description": "Text shown on the dialogs action"
+    }
+}

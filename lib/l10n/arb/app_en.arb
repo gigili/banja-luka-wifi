@@ -1,0 +1,123 @@
+{
+    "@@locale": "en",
+    "appBarTitle": "Banja Luka WiFi",
+    "@appBarTitle": {
+        "description": "Text shown in the AppBar"
+    },
+    "lblAddEditNetwork": "Add / edit network",
+    "@lblAddEditNetwork": {
+        "description": "Bottom navigation bar label"
+    },
+    "lblNetworksMap": "WiFi Map",
+    "@lblNetworksMap": {
+        "description": "Bottom navigation bar label"
+    },
+    "lblAppInfo": "About application",
+    "@lblAppInfo": {
+        "description": "Bottom navigation bar label"
+    },
+    "lblSearchNetworks": "Search networks",
+    "@lblSearchNetworks": {
+        "description": "Floating action button tooltip label"
+    },
+    "errorNoLocationPermissions": "Missing location permissions, some features may not work",
+    "@errorNoLocationPermissions": {
+        "description": "Error message shown when the location permissions are missing"
+    },
+    "lblTOS": "Terms of Service",
+    "@lblTOS": {
+        "description": "Alert dialog title label for TOS"
+    },
+    "tos": "<p>1. Banja Luka WiFi is an android application which contains all the wifi networks in the city of Banja Luka</p> <p>2. The application is intended for the mentioned city above.</p> <p>3. The author of the application takes no responsibility for the networks added by the users.<p>4. All the networks added by the users are their responsibility and they confirm that the added network  does not belong to a private house and/or office.</p> <p>5. If someone wants to get their network removed, they can contact the administrator via email: <a href=\\'mailto:github@igorilic.net\\'>github@igorilic.net</a>.</p> <p>6. After it was confirmed that the network belongs to the user, it  will be deleted.</p> <p>7. The removal of a network can only happen after the application users retrieve new network information from the API service .</p> <p>8. Data that the application collects from the user are their geo location.</p> <p>9. The application is free to use but may have an add banner(s) in it.</p> <p>10. The author of the application can change this terms without any prior or later notification to the user.</p>",
+    "@tos": {
+        "description": "Applications TOS text"
+    },
+    "lblAppName": "App name",
+    "@lblAppName": {
+        "description": "Label for application name shown on info page"
+    },
+    "lblDeveloper": "Developer",
+    "@lblDeveloper": {
+        "description": "Label for developer name shown on info page"
+    },
+    "lblContact": "Contact information",
+    "@lblContact": {
+        "description": "Label for contact info shown on info page"
+    },
+    "lblWebsite": "Website",
+    "@lblWebsite": {
+        "description": "Label for website shown on info page"
+    },
+    "lblVersion": "Version",
+    "@lblVersion": {
+        "description": "Label for application version shown on info page"
+    },
+    "lblSourceCode": "Source code",
+    "@lblSourceCode": {
+        "description": "Label for source code link shown on info page"
+    },
+    "lblOK": "OK",
+    "@lblOK": {
+        "description": "Label ok"
+    },
+    "lblNetworkName": "Network name:",
+    "@lblNetworkName": {
+        "description": "Input label for network name on the form"
+    },
+    "lblNetworkPassword": "Network password:",
+    "@lblNetworkPassword": {
+        "description": "Input label for network password on the form"
+    },
+    "lblNetworkAddress": "Network address:",
+    "@lblNetworkAddress": {
+        "description": "Input label for network address on the form"
+    },
+    "save": "Save",
+    "@save": {
+        "description": "Label for the save button the network form"
+    },
+    "errorNetworkNameEmpty": "Network name can't be empty",
+    "@errorNetworkNameEmpty": {
+        "description": "Error message shown when the network name is empty on form submit"
+    },
+    "errorNetworkPasswordEmpty": "Network password can't be empty",
+    "@errorNetworkPasswordEmpty": {
+        "description": "Error message shown when the network password is empty on form submit"
+    },
+    "errorNoLocationAvailable": "Unable to get device's current geo location",
+    "@errorNoLocationAvailable": {
+        "description": "Error message shown when the location is missing on form submit"
+    },
+    "networkSubmitted": "Network submitted",
+    "@networkSubmitted": {
+        "description": "Title shown on the alert dialog after the network was successfully submitted"
+    },
+    "networkAwaitingApproval": "The network was submitted successfully and is awaiting moderator approval before showing up in the app",
+    "@networkAwaitingApproval": {
+        "description": "Content shown on the alert dialog after the network was successfully submitted"
+    },
+    "lblNetworks": "Networks",
+    "@lblNetworks": {
+        "description": "Label text shown on the bottom navigation bar icon tooltip"
+    },
+    "msgPasswordCopiedToClipboard": "Password copied to clipboard",
+    "@msgPasswordCopiedToClipboard": {
+        "description": "Message shown in a snackbar when the users click on the network in the list"
+    },
+    "lblNetworkFormDisclaimer": "Personal home or office networks should not be added.",
+    "@lblNetworkFormDisclaimer": {
+        "description": "Disclaimer text shown on the network form, above the submit/save button"
+    },
+    "lblNetworkFormRequiredFieldsNote": "Fields marked with * are required",
+    "@lblNetworkFormRequiredFieldsNote": {
+        "description": "Notice text shown on the network form, below the input fields"
+    },
+    "actionSearch": "Search",
+    "@actionSearch": {
+        "description": "Text shown on the dialogs action"
+    },
+    "actionClear": "Clear",
+    "@actionClear": {
+        "description": "Text shown on the dialogs action"
+    }
+}
