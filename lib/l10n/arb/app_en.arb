@@ -92,6 +92,10 @@
     "@networkSubmitted": {
         "description": "Title shown on the alert dialog after the network was successfully submitted"
     },
+ 	"networkSubmittedError": "Unable to submit network information at this moment. Please try again later.",
+ 	"@networkSubmittedError": {
+	 "description": ""
+	},
     "networkAwaitingApproval": "The network was submitted successfully and is awaiting moderator approval before showing up in the app",
     "@networkAwaitingApproval": {
         "description": "Content shown on the alert dialog after the network was successfully submitted"

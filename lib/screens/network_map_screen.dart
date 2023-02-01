@@ -58,6 +58,7 @@ class _NetworkMapScreenState extends State<NetworkMapScreen> {
           initialCameraPosition: _kGooglePlex,
           onMapCreated: _controller.complete,
           markers: markers,
+          mapToolbarEnabled: true,
         );
       },
     );

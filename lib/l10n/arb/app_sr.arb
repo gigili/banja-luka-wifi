@@ -92,6 +92,10 @@
     "@networkSubmitted": {
         "description": "Title shown on the alert dialog after the network was successfully submitted"
     },
+   "networkSubmittedError": "Nije moguće trenutno sačuvati informacije o mreži. Molimo Vas da probate kasnije.",
+   "@networkSubmittedError": {
+	"description": ""
+   },
     "networkAwaitingApproval": "Mreža je uspješno dodana i čeka odobrenja od strane administratora.",
     "@networkAwaitingApproval": {
         "description": "Content shown on the alert dialog after the network was successfully submitted"

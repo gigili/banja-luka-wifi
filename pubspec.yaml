@@ -1,7 +1,7 @@
 name: banjalukawifi
 description: Banja Luka WiFi
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 3.2.0+18
+version: 3.2.0+20
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
