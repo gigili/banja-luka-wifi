@@ -17,9 +17,9 @@ The options included in the app are:
 # Screenshots
 
 <p>
-<img src="https://lh3.googleusercontent.com/F8MkaRSQL7DjNkKbObZ6ri9lgogHMStUkNWll53jWeIv7Ahwy28Q0VnHvId95nwoH9E=w400-h936" width="20%" />
-<img src="https://lh3.googleusercontent.com/cVkZlCwBH2gTAbwTQ5eYUCm54cYxEoIUUMdFSwqD_0u9am22UmFRJq94T-RxI7QntOw=w400-h936" width="20%" />
-<img src="https://lh3.googleusercontent.com/InQdHKusKB2ooGimgSTeTbk-ORiHSLd2WXq_lIuBySIYkUvTLmIVijHaJmEx3qhQB4PP=w400-h936" width="20%" />
+<img src="https://play-lh.googleusercontent.com/lzYavSrf0oSYFjve3MnHcnhwvrsJ5FeQUqCIFVjFEyUeQ12OV1xYKsubJmJUQfmLByA=w2560-h1440-rw" width="20%" />
+<img src="https://play-lh.googleusercontent.com/iQXKi8GSBGi3-nFIcrgZ7lXXNXs0zasdWkhI3ApKf6lwyHi2m1k1RtDe9iXfnSqY3Yo=w2560-h1440-rw" width="20%" />
+<img src="https://play-lh.googleusercontent.com/FQV7jpvw7TZOVWqAg5Phqu6xXHJ7P-fztWuq3-ocexTGSAemg7UnzouCHpgrqiYM_2sa=w2560-h1440-rw" width="20%" />
 </p>
 
 # Contributing
