@@ -1,9 +1,11 @@
 import 'package:banjalukawifi/cubit/network/network_cubit.dart';
 import 'package:banjalukawifi/l10n/l10n.dart';
-import 'package:banjalukawifi/screens/app_info_screen.dart';
-import 'package:banjalukawifi/screens/network_form_screen.dart';
-import 'package:banjalukawifi/screens/network_map_screen.dart';
-import 'package:banjalukawifi/screens/networks_screen.dart';
+import 'package:banjalukawifi/screens/mobile/app_info_screen.dart';
+import 'package:banjalukawifi/screens/mobile/network_form_screen.dart';
+import 'package:banjalukawifi/screens/mobile/network_map_screen.dart';
+import 'package:banjalukawifi/screens/mobile/networks_screen.dart';
+import 'package:banjalukawifi/utility/responsive.dart';
+import 'package:banjalukawifi/widgets/bottom_navigation_widget.dart';
 import 'package:banjalukawifi/widgets/custom_search_delegate.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -67,45 +69,23 @@ class _AppState extends State<App> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _pages[_currentPageIndex],
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: AdWidget(ad: myBanner),
-            width: myBanner.size.width.toDouble(),
-            height: myBanner.size.height.toDouble(),
-          ),
-        ],
+      body: Responsive(
+        mobile: Column(
+          children: [
+            Expanded(
+              child: _pages[_currentPageIndex],
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: AdWidget(ad: myBanner),
+              width: myBanner.size.width.toDouble(),
+              height: myBanner.size.height.toDouble(),
+            ),
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.blue[700],
-        selectedFontSize: 12,
-        unselectedFontSize: 11,
-        showUnselectedLabels: false,
-        iconSize: 30,
-        currentIndex: _currentPageIndex,
-        items: [
-          BottomNavigationBarItem(
-            label: context.l10n.lblNetworks,
-            icon: Icon(Icons.wifi),
-          ),
-          BottomNavigationBarItem(
-            label: context.l10n.lblAddEditNetwork,
-            icon: Icon(Icons.edit),
-          ),
-          BottomNavigationBarItem(
-            label: context.l10n.lblNetworksMap,
-            icon: Icon(Icons.map),
-          ),
-          BottomNavigationBarItem(
-            label: context.l10n.lblAppInfo,
-            icon: Icon(Icons.info_outline),
-          ),
-        ],
+      bottomNavigationBar: BottomNavigationWidget(
+        currentPageIndex: _currentPageIndex,
         onTap: (int index) => setState(() {
           _currentPageIndex = index;
         }),
