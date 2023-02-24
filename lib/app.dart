@@ -4,14 +4,14 @@ import 'package:banjalukawifi/screens/mobile/app_info_screen.dart';
 import 'package:banjalukawifi/screens/mobile/network_form_screen.dart';
 import 'package:banjalukawifi/screens/mobile/network_map_screen.dart';
 import 'package:banjalukawifi/screens/mobile/networks_screen.dart';
+import 'package:banjalukawifi/screens/tablet/app_info_screen.dart' as tablet;
 import 'package:banjalukawifi/utility/responsive.dart';
+import 'package:banjalukawifi/widgets/ad_banner.dart';
 import 'package:banjalukawifi/widgets/bottom_navigation_widget.dart';
 import 'package:banjalukawifi/widgets/custom_search_delegate.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class App extends StatefulWidget {
@@ -23,24 +23,22 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _currentPageIndex = 0;
-  final List<Widget> _pages = const [
+  final List<Widget> _pagesMobile = const [
     NetworkScreen(),
     NetworkFormScreen(),
     NetworkMapScreen(),
     AppInfoScreen(),
   ];
 
-  final BannerAd myBanner = BannerAd(
-    adUnitId: kDebugMode ? "ca-app-pub-3940256099942544/6300978111" : 'ca-app-pub-7166119252755550/6897013025',
-    size: AdSize.banner,
-    request: AdRequest(),
-    listener: BannerAdListener(),
-  );
+  final List<Widget> _pagesTablet = const [
+    NetworkScreen(),
+    NetworkFormScreen(),
+    tablet.AppInfoScreen(),
+  ];
 
   @override
   void initState() {
     context.read<NetworkCubit>().fetchNetworks();
-    myBanner.load();
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -73,15 +71,19 @@ class _AppState extends State<App> {
         mobile: Column(
           children: [
             Expanded(
-              child: _pages[_currentPageIndex],
+              child: _pagesMobile[_currentPageIndex],
             ),
-            Container(
-              alignment: Alignment.center,
-              child: AdWidget(ad: myBanner),
-              width: myBanner.size.width.toDouble(),
-              height: myBanner.size.height.toDouble(),
-            ),
+            AdBanner(isTablet: false),
           ],
+        ),
+        tablet: Container(
+          child: Column(
+            children: [
+              Expanded(child: _pagesTablet[_currentPageIndex]),
+              Expanded(child: const NetworkMapScreen()),
+              AdBanner(isTablet: true),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationWidget(
@@ -113,7 +115,6 @@ class _AppState extends State<App> {
 
   @override
   void dispose() {
-    myBanner.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,

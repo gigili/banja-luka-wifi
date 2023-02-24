@@ -1,4 +1,5 @@
 import 'package:banjalukawifi/l10n/l10n.dart';
+import 'package:banjalukawifi/utility/responsive.dart';
 import "package:flutter/material.dart";
 
 class BottomNavigationWidget extends StatefulWidget {
@@ -35,10 +36,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           label: context.l10n.lblAddEditNetwork,
           icon: Icon(Icons.edit),
         ),
-        BottomNavigationBarItem(
-          label: context.l10n.lblNetworksMap,
-          icon: Icon(Icons.map),
-        ),
+        if (Responsive.isMobile(context))
+          BottomNavigationBarItem(
+            label: context.l10n.lblNetworksMap,
+            icon: Icon(Icons.map),
+          ),
         BottomNavigationBarItem(
           label: context.l10n.lblAppInfo,
           icon: Icon(Icons.info_outline),
