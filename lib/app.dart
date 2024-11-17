@@ -82,7 +82,7 @@ class _AppState extends State<App> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.blue[700],
+        selectedItemColor: Colors.blue[400],
         selectedFontSize: 12,
         unselectedFontSize: 11,
         showUnselectedLabels: false,
@@ -91,19 +91,19 @@ class _AppState extends State<App> {
         items: [
           BottomNavigationBarItem(
             label: context.l10n.lblNetworks,
-            icon: Icon(Icons.wifi),
+            icon: Icon(Icons.wifi, color: Colors.blueAccent),
           ),
           BottomNavigationBarItem(
             label: context.l10n.lblAddEditNetwork,
-            icon: Icon(Icons.edit),
+            icon: Icon(Icons.edit, color: Colors.blueAccent),
           ),
           BottomNavigationBarItem(
             label: context.l10n.lblNetworksMap,
-            icon: Icon(Icons.map),
+            icon: Icon(Icons.map, color: Colors.blueAccent),
           ),
           BottomNavigationBarItem(
             label: context.l10n.lblAppInfo,
-            icon: Icon(Icons.info_outline),
+            icon: Icon(Icons.info_outline, color: Colors.blueAccent),
           ),
         ],
         onTap: (int index) => setState(() {

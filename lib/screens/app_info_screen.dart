@@ -1,12 +1,12 @@
 import 'package:banjalukawifi/l10n/l10n.dart';
 import 'package:banjalukawifi/utility/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppInfoScreen extends StatefulWidget {
-  const AppInfoScreen({Key? key}) : super(key: key);
+  const AppInfoScreen({super.key});
 
   @override
   State<AppInfoScreen> createState() => _AppInfoScreenState();
@@ -97,8 +97,8 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
     final tosDialog = AlertDialog(
       title: Text(ln10.lblTOS),
       content: SingleChildScrollView(
-        child: Html(
-          data: ln10.tos,
+        child: HtmlWidget(
+          ln10.tos,
         ),
       ),
       actions: <Widget>[

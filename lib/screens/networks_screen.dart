@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NetworkScreen extends StatefulWidget {
-  const NetworkScreen({Key? key}) : super(key: key);
+  const NetworkScreen({super.key});
 
   @override
   State<NetworkScreen> createState() => _NetworkScreenState();
@@ -28,7 +28,9 @@ class _NetworkScreenState extends State<NetworkScreen> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state is NetworkError) return Container();
+        if (state is NetworkError) {
+          return Container();
+        }
 
         return Container(
           margin: EdgeInsets.only(top: 10),
@@ -38,7 +40,8 @@ class _NetworkScreenState extends State<NetworkScreen> {
             },
             child: ListView.separated(
               itemCount: (state as NetworkLoaded).networks.length,
-              separatorBuilder: (BuildContext ctx, int index) => const Divider(thickness: 1),
+              separatorBuilder: (BuildContext ctx, int index) =>
+                  const Divider(thickness: 1),
               itemBuilder: (BuildContext ctx, int index) {
                 NetworkModel network = state.networks[index];
                 return NetworkTile(network: network);

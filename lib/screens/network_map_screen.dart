@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class NetworkMapScreen extends StatefulWidget {
-  const NetworkMapScreen({Key? key}) : super(key: key);
+  const NetworkMapScreen({super.key});
 
   @override
   State<NetworkMapScreen> createState() => _NetworkMapScreenState();
@@ -54,8 +54,9 @@ class _NetworkMapScreenState extends State<NetworkMapScreen> {
             .toSet();
 
         return GoogleMap(
-          myLocationEnabled: true,
+          mapType: MapType.hybrid,
           initialCameraPosition: _kGooglePlex,
+          myLocationEnabled: true,
           onMapCreated: _controller.complete,
           markers: markers,
           mapToolbarEnabled: true,

@@ -9,7 +9,7 @@ import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart' as perm;
 
 class NetworkFormScreen extends StatefulWidget {
-  const NetworkFormScreen({Key? key}) : super(key: key);
+  const NetworkFormScreen({super.key});
 
   @override
   State<NetworkFormScreen> createState() => _NetworkFormScreenState();
@@ -125,7 +125,7 @@ class _NetworkFormScreenState extends State<NetworkFormScreen> {
                 Center(
                   child: ElevatedButton.icon(
                     style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.resolveWith((state) => Size(100, 50)),
+                      minimumSize: WidgetStateProperty.resolveWith((state) => Size(100, 50)),
                     ),
                     icon: Icon(Icons.save),
                     label: Text(
@@ -152,6 +152,8 @@ class _NetworkFormScreenState extends State<NetworkFormScreen> {
                         geoLat: geoLat,
                         geoLong: geoLong,
                       );
+
+                      FocusScope.of(context).unfocus();
 
                       network?.lastUpdate = DateTime.now().toIso8601String();
                       context.read<NetworkFormCubit>().submitNetwork(network!);

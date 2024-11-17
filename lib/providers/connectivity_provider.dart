@@ -6,15 +6,21 @@ class ConnectivityProvider {
   ConnectivityProvider(this.connectivity);
 
   Future<bool> hasConnection() async {
-    final status = await connectivity.checkConnectivity();
+    final statuses = await connectivity.checkConnectivity();
+    var hasConnection = false;
 
-    if (status == ConnectivityResult.mobile ||
-        status == ConnectivityResult.wifi ||
-        status == ConnectivityResult.ethernet) {
-      return true;
-    } else {
-      return false;
+    for (final ConnectivityResult status in statuses) {
+      if (status == ConnectivityResult.mobile ||
+          status == ConnectivityResult.wifi ||
+          status == ConnectivityResult.ethernet) {
+        hasConnection = true;
+        break;
+      } else {
+        hasConnection = false;
+        break;
+      }
     }
+    return hasConnection;
   }
 
   Future<bool> isConnectedToWiFi() async {
