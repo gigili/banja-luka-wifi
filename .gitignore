@@ -49,3 +49,6 @@ app.*.map.json
 *.jks
 .env
 *.der
+
+devtools_options.yaml
+/android/app/.cxx/*

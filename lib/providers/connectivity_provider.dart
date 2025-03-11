@@ -25,6 +25,14 @@ class ConnectivityProvider {
 
   Future<bool> isConnectedToWiFi() async {
     final status = await connectivity.checkConnectivity();
-    return status == ConnectivityResult.wifi;
+    var result = false;
+    for(final stat in status){
+      if(stat == ConnectivityResult.wifi){
+        result = true;
+        break;
+      }
+    }
+
+    return result;
   }
 }

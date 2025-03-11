@@ -194,6 +194,8 @@ class _NetworkFormScreenState extends State<NetworkFormScreen> {
         _addressController.text = network?.address ?? "";
         _passwordController.text = network?.password ?? "";
         network?.lastUpdate = DateTime.now().toIso8601String();
+      }else{
+        _nameController.text = _nameController.text.replaceAll('"', '');
       }
     }
   }

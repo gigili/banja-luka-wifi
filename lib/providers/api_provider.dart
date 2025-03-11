@@ -1,10 +1,7 @@
-import "dart:developer";
-
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:banjalukawifi/models/network_model.dart';
 import 'package:banjalukawifi/utility/constants.dart';
-import 'package:flutter/foundation.dart';
 
 class ApiProvider {
   ApiProvider();
@@ -35,9 +32,9 @@ class ApiProvider {
 
       return networks;
     } catch (e) {
-      if (kDebugMode) {
+      /*if (kDebugMode) {
         log(e.toString());
-      }
+      }*/
     }
 
     return [];
@@ -60,9 +57,9 @@ class ApiProvider {
 
       return result.documents.map((e) => NetworkModel.fromDocument(e.$id, e.data, e.$updatedAt)).toList();
     } catch (e) {
-      if (kDebugMode) {
+      /*if (kDebugMode) {
         log(e.toString());
-      }
+      }*/
     }
 
     return [];

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 class NetworkTile extends StatelessWidget {
   final NetworkModel network;
 
-  const NetworkTile({Key? key, required this.network}) : super(key: key);
+  const NetworkTile({super.key, required this.network});
 
   @override
   Widget build(BuildContext context) {
